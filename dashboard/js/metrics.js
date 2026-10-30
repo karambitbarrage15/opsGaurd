@@ -109,24 +109,24 @@ function startMetricsPoller() {
         const valMemory = document.getElementById("valMemory");
         const barMemory = document.getElementById("barMemory");
 
-        if (valLatency) valLatency.innerHTML = `${Math.round(baseLatency)} <span class="unit">ms</span>`;
+        if (valLatency) valLatency.innerHTML = `${Math.round(baseLatency)} <span class="stat-unit">ms</span>`;
         if (barLatency) {
           const pct = Math.min(100, Math.round((baseLatency / 3000) * 100));
           barLatency.style.width = `${pct}%`;
-          barLatency.className = baseLatency > 1000 ? "metric-bar danger-bar" : (baseLatency > 200 ? "metric-bar warn-bar" : "metric-bar");
+          barLatency.className = baseLatency > 1000 ? "stat-bar danger-bar" : (baseLatency > 200 ? "stat-bar warn-bar" : "stat-bar");
         }
 
-        if (valErrorRate) valErrorRate.innerHTML = `${baseErrors.toFixed(1)} <span class="unit">%</span>`;
+        if (valErrorRate) valErrorRate.innerHTML = `${baseErrors.toFixed(1)} <span class="stat-unit">%</span>`;
         if (trendError) {
-          trendError.className = baseErrors > 0 ? "metric-trend negative" : "metric-trend neutral";
+          trendError.className = baseErrors > 0 ? "stat-trend negative" : "stat-trend neutral";
           trendError.innerText = baseErrors > 0 ? `↑ Elevated 5xx faults` : "0 failures";
         }
 
-        if (valMemory) valMemory.innerHTML = `${Math.round(baseMem)} <span class="unit">MB</span>`;
+        if (valMemory) valMemory.innerHTML = `${Math.round(baseMem)} <span class="stat-unit">MB</span>`;
         if (barMemory) {
           const memPct = Math.min(100, Math.round((baseMem / 1000) * 100));
           barMemory.style.width = `${memPct}%`;
-          barMemory.className = baseMem > 500 ? "metric-bar danger-bar" : "metric-bar info-bar";
+          barMemory.className = baseMem > 500 ? "stat-bar danger-bar" : "stat-bar info-bar";
         }
 
         updateChaosUI();

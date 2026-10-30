@@ -142,18 +142,18 @@ function renderRiskResults(data) {
     factorsList.innerHTML = "";
     (assessment.risk_factors || []).forEach(f => {
       const item = document.createElement("div");
-      item.className = "factor-item";
+      item.className = "factor-flat-item";
       item.innerHTML = `
         <div>
           <strong>${f.factor}</strong>
-          <div style="font-size:0.75rem; color:var(--text-muted);">${f.detail}</div>
+          <div class="factor-desc">${f.detail}</div>
         </div>
-        <span class="factor-weight">${f.weight}</span>
+        <span class="factor-wt">${f.weight}</span>
       `;
       factorsList.appendChild(item);
     });
     if (!assessment.risk_factors || !assessment.risk_factors.length) {
-      factorsList.innerHTML = `<div class="empty-state">No anomalous risk patterns detected in diff.</div>`;
+      factorsList.innerHTML = `<div class="muted-text">No anomalous risk patterns detected in diff.</div>`;
     }
   }
 
@@ -163,7 +163,7 @@ function renderRiskResults(data) {
     affectedList.innerHTML = "";
     (blast.affected_services || []).forEach(svc => {
       const chip = document.createElement("span");
-      chip.className = "service-chip";
+      chip.className = "service-clean-pill";
       chip.innerText = svc;
       affectedList.appendChild(chip);
     });

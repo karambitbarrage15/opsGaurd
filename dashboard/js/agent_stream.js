@@ -87,20 +87,20 @@ function initAgentStream() {
 
 async function playEventStream(events) {
   for (const ev of events) {
-    let cssClass = "system-line";
+    let cssClass = "sys";
     let prefix = "[SYSTEM]";
 
     if (ev.type === "THOUGHT") {
-      cssClass = "thought-line";
+      cssClass = "thought";
       prefix = "[THOUGHT]";
     } else if (ev.type === "TOOL_RESULT") {
-      cssClass = "tool-line";
+      cssClass = "tool";
       prefix = "[MCP TOOL]";
     } else if (ev.type === "RCA_DEDUCTION") {
-      cssClass = "rca-line";
+      cssClass = "rca";
       prefix = "[AI DEDUCTION]";
     } else if (ev.type === "INVESTIGATION_COMPLETE") {
-      cssClass = "success-line";
+      cssClass = "success";
       prefix = "[STATUS]";
     }
 
@@ -114,8 +114,8 @@ function appendTerminalLine(cssClass, text) {
   if (!terminal) return;
 
   const line = document.createElement("div");
-  line.className = `terminal-line ${cssClass}`;
-  line.innerHTML = `<span class="prompt-symbol">&gt;</span> ${escapeHtml(text)}`;
+  line.className = `term-line ${cssClass}`;
+  line.innerHTML = `&gt; ${escapeHtml(text)}`;
   terminal.appendChild(line);
   terminal.scrollTop = terminal.scrollHeight;
 }
@@ -136,7 +136,9 @@ function renderRCA(report) {
   if (content) content.style.display = "flex";
   if (badge) {
     badge.innerText = "AWAITING ROLLBACK APPROVAL";
-    badge.className = "badge critical-badge";
+    badge.className = "tier-pill";
+    badge.style.color = "var(--accent-rose)";
+    badge.style.borderColor = "var(--accent-rose)";
   }
 
   if (meta) {

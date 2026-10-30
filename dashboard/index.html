@@ -3,183 +3,307 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChangeGuard — AI Change-Intelligence & Autonomous SRE Platform</title>
+  <title>ChangeGuard — Autonomous SRE & Change-Intelligence Platform</title>
+  <meta name="description" content="AI-powered change risk scoring, blast-radius prediction, and autonomous incident investigation with MCP tools and vectorized RAG playbooks.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="app-container">
-    <!-- Top Bar Navigation -->
-    <header class="top-nav">
-      <div class="brand">
-        <div class="brand-logo">
-          <span class="shield-icon">🛡️</span>
-          <span class="pulse-ring"></span>
+  <!-- Global Ambient Background Glows -->
+  <div class="ambient-glow glow-top"></div>
+  <div class="ambient-glow glow-bottom"></div>
+
+  <!-- Header / Navigation Bar (Polar Style) -->
+  <header class="polar-nav">
+    <div class="nav-container">
+      <div class="nav-brand" data-tab-target="tab-home">
+        <div class="logo-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L3 7V12C3 17.5 6.8 22.7 12 24C17.2 22.7 21 17.5 21 12V7L12 2Z" fill="url(#brandGrad)" />
+            <path d="M12 6L6 10V13C6 16.8 8.6 20.3 12 21.2C15.4 20.3 18 16.8 18 13V10L12 6Z" fill="#08090d" />
+            <defs>
+              <linearGradient id="brandGrad" x1="3" y1="2" x2="21" y2="24" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00f2fe" />
+                <stop offset="1" stop-color="#38bdf8" />
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
-        <div class="brand-text">
-          <h1>ChangeGuard</h1>
-          <span class="tagline">DevOps + AI Autonomous SRE Platform</span>
-        </div>
+        <span class="logo-text">ChangeGuard</span>
       </div>
 
-      <!-- Service Health Dots -->
-      <div class="service-indicators" id="serviceIndicators">
-        <div class="indicator-chip" title="Telemetry Service (Port 8000)">
-          <span class="dot healthy" id="dotTelemetry"></span>
-          <span class="lbl">Telemetry</span>
+      <!-- Navigation Links -->
+      <nav class="nav-links">
+        <button class="nav-link active" data-tab="tab-home">Overview</button>
+        <button class="nav-link" data-tab="tab-operations">Runtime & Chaos</button>
+        <button class="nav-link" data-tab="tab-risk">Change Risk</button>
+        <button class="nav-link" data-tab="tab-agent">
+          AI SRE Agent
+          <span class="pill-dot-badge" id="agentIncidentBadge" style="display:none;"></span>
+        </button>
+        <button class="nav-link" data-tab="tab-playbooks">Playbooks</button>
+      </nav>
+
+      <!-- Right Navigation Actions -->
+      <div class="nav-actions">
+        <!-- Service Health Dots -->
+        <div class="health-cluster" title="System Microservice Health">
+          <span class="health-dot dot-live" id="dotTelemetry" title="Telemetry :8000"></span>
+          <span class="health-dot dot-live" id="dotRisk" title="Risk Engine :8001"></span>
+          <span class="health-dot dot-live" id="dotMcp" title="MCP Server :8002"></span>
+          <span class="health-dot dot-live" id="dotAgent" title="SRE Agent :8003"></span>
+          <span class="health-dot dot-live" id="dotRag" title="RAG Engine :8004"></span>
         </div>
-        <div class="indicator-chip" title="Risk Engine (Port 8001)">
-          <span class="dot healthy" id="dotRisk"></span>
-          <span class="lbl">Risk Engine</span>
-        </div>
-        <div class="indicator-chip" title="MCP Server (Port 8002)">
-          <span class="dot healthy" id="dotMcp"></span>
-          <span class="lbl">MCP Tools</span>
-        </div>
-        <div class="indicator-chip" title="SRE Agent (Port 8003)">
-          <span class="dot healthy" id="dotAgent"></span>
-          <span class="lbl">SRE Agent</span>
-        </div>
-        <div class="indicator-chip" title="RAG Engine (Port 8004)">
-          <span class="dot healthy" id="dotRag"></span>
-          <span class="lbl">RAG KB</span>
-        </div>
+
+        <a href="https://github.com/karambitbarrage15/opsGaurd" target="_blank" rel="noopener" class="btn-github">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+          <span>GitHub</span>
+        </a>
+
+        <button class="btn-cta-primary" id="btnNavLaunch">
+          <span>Launch Live Studio</span>
+          <span class="arrow">→</span>
+        </button>
       </div>
+    </div>
+  </header>
 
-      <div class="global-status">
-        <span class="status-pill status-healthy" id="globalStatusPill">
-          <span class="status-dot"></span>
-          <span id="globalStatusText">SYSTEM HEALTHY</span>
-        </span>
-      </div>
-    </header>
+  <!-- Page Content Container -->
+  <div class="content-wrapper">
 
-    <!-- Main Navigation Tabs -->
-    <nav class="main-tabs">
-      <button class="tab-btn active" data-tab="tab-operations" id="tabBtnOperations">
-        <span class="tab-icon">⚡</span> Runtime & Chaos Studio
-      </button>
-      <button class="tab-btn" data-tab="tab-risk" id="tabBtnRisk">
-        <span class="tab-icon">🔍</span> Pre-Deploy Change Risk
-      </button>
-      <button class="tab-btn" data-tab="tab-agent" id="tabBtnAgent">
-        <span class="tab-icon">🤖</span> Autonomous AI SRE Agent
-        <span class="badge-count" id="agentIncidentBadge" style="display:none;">1</span>
-      </button>
-      <button class="tab-btn" data-tab="tab-playbooks" id="tabBtnPlaybooks">
-        <span class="tab-icon">📚</span> Historical Incident RAG
-      </button>
-    </nav>
-
-    <!-- Tab 1: Runtime & Chaos Studio -->
-    <main class="tab-content active" id="tab-operations">
-      <div class="metrics-grid">
-        <div class="metric-card glass">
-          <div class="metric-header">
-            <span class="metric-title">Throughput</span>
-            <span class="metric-tag">req/s</span>
-          </div>
-          <div class="metric-value" id="valThroughput">285 <span class="unit">rps</span></div>
-          <div class="metric-trend positive" id="trendThroughput">↑ Normal stream</div>
+    <!-- ==================== TAB 0: POLAR-STYLE LANDING PAGE ==================== -->
+    <section class="page-tab active" id="tab-home">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="hero-announcement" data-tab-switch="tab-agent">
+          <span class="announcement-pill">
+            <span class="sparkle">⚡</span>
+            <span>Announcing ChangeGuard 2.0</span>
+            <span class="sep">·</span>
+            <span class="desc">Autonomous SRE for the AI Era</span>
+            <span class="chev">→</span>
+          </span>
         </div>
 
-        <div class="metric-card glass">
-          <div class="metric-header">
-            <span class="metric-title">p95 Latency</span>
-            <span class="metric-tag">target &lt; 200ms</span>
-          </div>
-          <div class="metric-value" id="valLatency">42 <span class="unit">ms</span></div>
-          <div class="metric-bar-wrap">
-            <div class="metric-bar" id="barLatency" style="width: 15%;"></div>
-          </div>
+        <h1 class="hero-heading">
+          Autonomous change intelligence <br>
+          <span class="heading-gradient">for production systems.</span>
+        </h1>
+
+        <p class="hero-subtext">
+          Predict blast radius before you deploy. When production degrades, an autonomous AI agent investigates live metrics, scans logs, correlates Git commits, and verifies GitOps rollback.
+        </p>
+
+        <div class="hero-cta-group">
+          <button class="btn-hero-primary" data-tab-switch="tab-operations">
+            <span>Explore Live Operations</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-hero-secondary" data-tab-switch="tab-risk">
+            <span>Run Change-Risk Analysis</span>
+          </button>
         </div>
 
-        <div class="metric-card glass">
-          <div class="metric-header">
-            <span class="metric-title">5xx Error Rate</span>
-            <span class="metric-tag">SLA 99.9%</span>
-          </div>
-          <div class="metric-value" id="valErrorRate">0.0 <span class="unit">%</span></div>
-          <div class="metric-trend neutral" id="trendErrorRate">0 failures</div>
-        </div>
-
-        <div class="metric-card glass">
-          <div class="metric-header">
-            <span class="metric-title">Memory Allocation</span>
-            <span class="metric-tag">Heap RSS</span>
-          </div>
-          <div class="metric-value" id="valMemory">142 <span class="unit">MB</span></div>
-          <div class="metric-bar-wrap">
-            <div class="metric-bar info-bar" id="barMemory" style="width: 25%;"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Chaos Engineering Console & Live Stream -->
-      <div class="operations-layout">
-        <div class="panel glass chaos-panel">
-          <div class="panel-header">
-            <h3>💥 Chaos Engineering Injection Studio</h3>
-            <span class="badge warning-badge">Production Fault Injection</span>
-          </div>
-          <p class="panel-desc">Simulate realistic production degradation scenarios on the connected-vehicle telemetry pipeline to test automated AI detection.</p>
-
-          <div class="chaos-buttons-grid">
-            <button class="chaos-btn chaos-latency" id="btnChaosLatency">
-              <span class="btn-icon">⏱️</span>
-              <div class="btn-text">
-                <strong>Inject Latency Spike</strong>
-                <span>+2500ms delay on vehicle ingest</span>
+        <!-- Hero UI Mockup Showcase (Polar Style) -->
+        <div class="hero-mockup-wrapper">
+          <div class="mockup-ambient-halo"></div>
+          <div class="mockup-frame">
+            <div class="mockup-header-bar">
+              <div class="window-dots">
+                <span></span><span></span><span></span>
               </div>
-            </button>
-
-            <button class="chaos-btn chaos-error" id="btnChaosError">
-              <span class="btn-icon">⚠️</span>
-              <div class="btn-text">
-                <strong>Inject 50% 5xx Failures</strong>
-                <span>Trigger HTTP 500 error cascade</span>
+              <div class="mockup-url-pill">
+                <span>changeguard.internal/operations/live</span>
               </div>
-            </button>
-
-            <button class="chaos-btn chaos-memory" id="btnChaosMemory">
-              <span class="btn-icon">🌊</span>
-              <div class="btn-text">
-                <strong>Inject Memory Leak</strong>
-                <span>Allocate +150MB unmanaged chunk</span>
+              <div class="mockup-live-status">
+                <span class="live-dot"></span>
+                <span>SYSTEM ACTIVE</span>
               </div>
-            </button>
-
-            <button class="chaos-btn chaos-reset" id="btnChaosReset">
-              <span class="btn-icon">🔄</span>
-              <div class="btn-text">
-                <strong>Reset All Faults</strong>
-                <span>Restore baseline service health</span>
-              </div>
-            </button>
-          </div>
-
-          <div class="chaos-status-card" id="chaosStatusBox">
-            <div class="status-row">
-              <span>Active Chaos State:</span>
-              <strong id="activeChaosState">Baseline Healthy</strong>
             </div>
-            <div class="status-row">
-              <span>Simulated Incidents Injected:</span>
-              <span id="chaosIncidentCount">0</span>
-            </div>
+            <img src="assets/hero-mockup.jpg" alt="ChangeGuard Operations Console Mockup" class="mockup-image" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Telemetry Ticker Strip (No Box Inside A Box) -->
+      <div class="ticker-strip">
+        <div class="ticker-item">
+          <span class="ticker-val">285</span>
+          <span class="ticker-lbl">Telemetry Req/s</span>
+        </div>
+        <div class="ticker-divider"></div>
+        <div class="ticker-item">
+          <span class="ticker-val">&lt; 45ms</span>
+          <span class="ticker-lbl">Baseline p95 Latency</span>
+        </div>
+        <div class="ticker-divider"></div>
+        <div class="ticker-item">
+          <span class="ticker-val">100%</span>
+          <span class="ticker-lbl">Zero-Cloud Local Stack</span>
+        </div>
+        <div class="ticker-divider"></div>
+        <div class="ticker-item">
+          <span class="ticker-val">10 Tools</span>
+          <span class="ticker-lbl">Model Context Protocol</span>
+        </div>
+      </div>
+
+      <!-- Feature Grid (Single Surface, Clean Dividers) -->
+      <div class="features-section">
+        <div class="section-meta">
+          <span class="section-tag">ENGINEERED FOR DEVSECOPS & SRE</span>
+          <h2 class="section-heading">Four layers of automated production defense.</h2>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card" data-tab-switch="tab-risk">
+            <div class="feature-icon">🔍</div>
+            <h3>Pre-Deployment Risk Intelligence</h3>
+            <p>Parses unified git diffs to detect unindexed queries, synchronous blocking sleeps, and destructive migrations. Generates blast-radius topology before release.</p>
+            <span class="feature-link">Explore Risk Engine →</span>
+          </div>
+
+          <div class="feature-card" data-tab-switch="tab-operations">
+            <div class="feature-icon">💥</div>
+            <h3>Chaos Engineering Studio</h3>
+            <p>Inject realistic latency degradation, 5xx cascades, and memory leaks on demand to test resilience and trigger automated telemetry alerting.</p>
+            <span class="feature-link">Test Chaos Studio →</span>
+          </div>
+
+          <div class="feature-card" data-tab-switch="tab-agent">
+            <div class="feature-icon">🤖</div>
+            <h3>Autonomous MCP Investigation</h3>
+            <p>Standardized tool protocol allowing the AI agent to inspect Prometheus PromQL, pull container logs, verify Git blame, and propose safe rollbacks.</p>
+            <span class="feature-link">View SRE Agent →</span>
+          </div>
+
+          <div class="feature-card" data-tab-switch="tab-playbooks">
+            <div class="feature-icon">📚</div>
+            <h3>Vectorized RAG Post-Mortems</h3>
+            <p>Sub-millisecond semantic retrieval across historical production incident playbooks, matching active symptoms to proven resolution steps.</p>
+            <span class="feature-link">Browse Playbooks →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 1: RUNTIME & CHAOS STUDIO ==================== -->
+    <section class="page-tab" id="tab-operations">
+      <div class="tab-header-strip">
+        <div>
+          <h2>Runtime Operations & Chaos Studio</h2>
+          <p class="tab-sub">Real-time connected-vehicle telemetry pipeline with Prometheus metrics and fault injection.</p>
+        </div>
+        <div class="status-indicator-pill" id="globalStatusPill">
+          <span class="indicator-dot"></span>
+          <span id="globalStatusText">ALL SYSTEMS NORMAL</span>
+        </div>
+      </div>
+
+      <!-- Metrics Row (Flat Single Surface) -->
+      <div class="metrics-row">
+        <div class="stat-cell">
+          <span class="stat-label">Throughput</span>
+          <div class="stat-value" id="valThroughput">285 <span class="stat-unit">req/s</span></div>
+          <span class="stat-trend positive" id="trendThroughput">↑ Normal Ingest</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-label">p95 Ingestion Latency</span>
+          <div class="stat-value" id="valLatency">42 <span class="stat-unit">ms</span></div>
+          <div class="stat-progress">
+            <div class="stat-bar" id="barLatency" style="width: 14%;"></div>
+          </div>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-label">5xx Error Rate</span>
+          <div class="stat-value" id="valErrorRate">0.0 <span class="stat-unit">%</span></div>
+          <span class="stat-trend neutral" id="trendErrorRate">0 failures</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-label">Memory Allocation</span>
+          <div class="stat-value" id="valMemory">142 <span class="stat-unit">MB</span></div>
+          <div class="stat-progress">
+            <div class="stat-bar info-bar" id="barMemory" style="width: 25%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Split Layout: Chaos Triggers & Live Fleet Table (No Box Inside A Box) -->
+      <div class="surface-split">
+        <!-- Left: Chaos Studio -->
+        <div class="surface-col">
+          <div class="col-head">
+            <h3>Chaos Injection Console</h3>
+            <span class="col-badge">Simulate Incidents</span>
+          </div>
+          <p class="col-desc">Inject synthetic production faults into the telemetry pipeline to observe metrics shift and test autonomous agent response.</p>
+
+          <div class="chaos-action-list">
+            <button class="chaos-action-btn chaos-latency-btn" id="btnChaosLatency">
+              <div class="btn-left">
+                <span class="btn-symbol">⏱️</span>
+                <div>
+                  <strong>Inject Latency Spike</strong>
+                  <span>+2500ms delay on vehicle event pipeline</span>
+                </div>
+              </div>
+              <span class="btn-trigger-badge">Trigger</span>
+            </button>
+
+            <button class="chaos-action-btn chaos-error-btn" id="btnChaosError">
+              <div class="btn-left">
+                <span class="btn-symbol">⚠️</span>
+                <div>
+                  <strong>Inject 50% Error Rate</strong>
+                  <span>Simulate 500 Internal Server Error cascade</span>
+                </div>
+              </div>
+              <span class="btn-trigger-badge">Trigger</span>
+            </button>
+
+            <button class="chaos-action-btn chaos-memory-btn" id="btnChaosMemory">
+              <div class="btn-left">
+                <span class="btn-symbol">🌊</span>
+                <div>
+                  <strong>Inject Memory Leak</strong>
+                  <span>Allocate +150MB unmanaged coordinate buffer</span>
+                </div>
+              </div>
+              <span class="btn-trigger-badge">Trigger</span>
+            </button>
+
+            <button class="chaos-action-btn chaos-reset-btn" id="btnChaosReset">
+              <div class="btn-left">
+                <span class="btn-symbol">🔄</span>
+                <div>
+                  <strong>Reset All Faults</strong>
+                  <span>Restore healthy baseline parameters</span>
+                </div>
+              </div>
+              <span class="btn-trigger-badge">Reset</span>
+            </button>
+          </div>
+
+          <div class="chaos-summary-bar">
+            <span>Current State: <strong id="activeChaosState">Baseline Healthy</strong></span>
+            <span>Faults Injected: <span id="chaosIncidentCount">0</span></span>
           </div>
         </div>
 
-        <!-- Live Telemetry Stream -->
-        <div class="panel glass telemetry-panel">
-          <div class="panel-header">
-            <h3>📡 Connected Fleet Telemetry Stream</h3>
-            <span class="live-dot-badge"><span class="pulsing-dot"></span> LIVE 2s</span>
+        <!-- Right: Live Fleet Table -->
+        <div class="surface-col">
+          <div class="col-head">
+            <h3>Connected Fleet Telemetry Stream</h3>
+            <span class="live-tag"><span class="pulse-ring-dot"></span> LIVE 2s</span>
           </div>
-          <div class="telemetry-table-wrap">
-            <table class="telemetry-table" id="telemetryTable">
+          <p class="col-desc">Continuous high-frequency ingestion stream from California & Nevada vehicle fleets.</p>
+
+          <div class="table-container">
+            <table class="polar-table">
               <thead>
                 <tr>
                   <th>VIN</th>
@@ -197,171 +321,172 @@
           </div>
         </div>
       </div>
-    </main>
+    </section>
 
-    <!-- Tab 2: Pre-Deploy Change Risk -->
-    <main class="tab-content" id="tab-risk">
-      <div class="risk-layout">
-        <!-- Input Column -->
-        <div class="panel glass risk-input-panel">
-          <div class="panel-header">
-            <h3>📄 Pull Request Diff Analyzer</h3>
-            <span class="badge info-badge">Pre-Deployment Gate</span>
-          </div>
-          
-          <div class="sample-picker">
-            <label>Load Sample Scenario:</label>
-            <div class="sample-pills">
-              <button class="pill-btn active" id="btnSampleQuery">Unbounded Query & Sleep</button>
-              <button class="pill-btn" id="btnSampleMemory">Memory Buffer Leak</button>
-              <button class="pill-btn" id="btnSampleDocs">Safe Documentation</button>
-            </div>
+    <!-- ==================== TAB 2: PRE-DEPLOY CHANGE RISK ==================== -->
+    <section class="page-tab" id="tab-risk">
+      <div class="tab-header-strip">
+        <div>
+          <h2>Pre-Deploy Change-Risk Analysis</h2>
+          <p class="tab-sub">Automated PR blast-radius prediction, code pattern heuristics, and deployment safety scoring.</p>
+        </div>
+      </div>
+
+      <div class="surface-split">
+        <!-- Left: Input & Sample Picker -->
+        <div class="surface-col">
+          <div class="col-head">
+            <h3>Pull Request Diff Input</h3>
+            <span class="col-badge">Pre-Deployment Gate</span>
           </div>
 
-          <div class="form-group">
+          <div class="sample-pills-row">
+            <span class="sample-label">Scenarios:</span>
+            <button class="pill-action active" id="btnSampleQuery">Unbounded Query & Sleep</button>
+            <button class="pill-action" id="btnSampleMemory">Memory Buffer Leak</button>
+            <button class="pill-action" id="btnSampleDocs">Safe Documentation</button>
+          </div>
+
+          <div class="field-wrap">
             <label for="commitMessageInput">Commit Message</label>
-            <input type="text" id="commitMessageInput" value="feat(telemetry): add batch historical vehicle lookups" class="glass-input">
+            <input type="text" id="commitMessageInput" value="feat(telemetry): add batch historical vehicle lookups" class="polar-input">
           </div>
 
-          <div class="form-group">
+          <div class="field-wrap">
             <label for="diffTextInput">Git Unified Diff</label>
-            <textarea id="diffTextInput" rows="11" class="glass-textarea" placeholder="Paste git diff here..."></textarea>
+            <textarea id="diffTextInput" rows="12" class="polar-textarea" placeholder="Paste unified diff here..."></textarea>
           </div>
 
-          <button class="primary-btn glow" id="btnAnalyzeRisk">
-            <span class="btn-icon">⚡</span> Run AI Change-Risk Analysis
+          <button class="btn-primary-wide" id="btnAnalyzeRisk">
+            <span>⚡ Run AI Change-Risk Analysis</span>
           </button>
         </div>
 
-        <!-- Risk Output Column -->
-        <div class="panel glass risk-results-panel" id="riskResultsPanel">
-          <div class="panel-header">
-            <h3>🛡️ ChangeGuard Safety Assessment</h3>
-            <span class="badge" id="riskTierBadge">ANALYSIS PENDING</span>
+        <!-- Right: Assessment Results (Flat Single Surface) -->
+        <div class="surface-col">
+          <div class="col-head">
+            <h3>Safety Assessment Report</h3>
+            <span class="tier-pill" id="riskTierBadge">AWAITING INPUT</span>
           </div>
 
-          <div class="risk-score-display">
-            <div class="score-circle" id="riskScoreCircle">
+          <div class="risk-gauge-block">
+            <div class="gauge-svg-wrap">
               <svg viewBox="0 0 100 100">
-                <circle class="circle-bg" cx="50" cy="50" r="42"></circle>
-                <circle class="circle-fill" id="circleFill" cx="50" cy="50" r="42"></circle>
+                <circle class="gauge-track" cx="50" cy="50" r="42"></circle>
+                <circle class="gauge-meter" id="circleFill" cx="50" cy="50" r="42"></circle>
               </svg>
-              <div class="score-number" id="riskScoreNumber">--</div>
+              <div class="gauge-center-val" id="riskScoreNumber">--</div>
             </div>
-            <div class="score-details">
-              <div class="approval-title" id="approvalStatusTitle">Awaiting Input</div>
-              <p class="approval-desc" id="approvalStatusDesc">Submit a code diff to evaluate blast radius, schema migrations, and deployment risks.</p>
-              <div class="canary-box" id="canaryStrategyBox" style="display:none;">
-                <span class="canary-lbl">Recommended Canary Strategy:</span>
-                <span class="canary-val" id="canaryStrategyVal">Standard Rolling</span>
+            <div class="gauge-meta">
+              <h4 id="approvalStatusTitle">Analysis Ready</h4>
+              <p id="approvalStatusDesc">Submit a code diff to evaluate blast radius, schema migrations, and deployment risks.</p>
+              <div class="canary-chip" id="canaryStrategyBox" style="display:none;">
+                <span class="chip-lbl">Canary Strategy:</span>
+                <strong id="canaryStrategyVal">Standard Rolling</strong>
               </div>
             </div>
           </div>
 
-          <!-- Risk Factors Breakdown -->
-          <div class="risk-breakdown-section">
-            <h4>Identified Risk Factors</h4>
-            <div class="factors-list" id="factorsList">
-              <div class="empty-state">No factors analyzed yet.</div>
+          <div class="details-section">
+            <span class="details-heading">Identified Risk Factors</span>
+            <div class="factors-flat-list" id="factorsList">
+              <div class="muted-text">Select a scenario or paste a diff to run analysis.</div>
             </div>
           </div>
 
-          <!-- Blast Radius Topology -->
-          <div class="blast-radius-section">
-            <h4>Blast Radius & Affected Services</h4>
-            <div class="affected-chips" id="affectedServicesList">
+          <div class="details-section">
+            <span class="details-heading">Blast Radius & Affected Services</span>
+            <div class="service-pill-cluster" id="affectedServicesList">
               <!-- Dynamically populated -->
             </div>
           </div>
 
-          <!-- SRE Recommendations -->
-          <div class="recommendations-section">
-            <h4>Safety Recommendations</h4>
-            <ul class="recs-list" id="recommendationsList">
+          <div class="details-section">
+            <span class="details-heading">Safety Recommendations</span>
+            <ul class="clean-bullet-list" id="recommendationsList">
               <!-- Dynamically populated -->
             </ul>
           </div>
         </div>
       </div>
-    </main>
+    </section>
 
-    <!-- Tab 3: Autonomous AI SRE Agent -->
-    <main class="tab-content" id="tab-agent">
-      <div class="agent-layout">
-        <!-- Agent Stream Column -->
-        <div class="panel glass agent-terminal-panel">
-          <div class="panel-header">
-            <div class="agent-title-wrap">
-              <span class="agent-avatar">🤖</span>
-              <div>
-                <h3>Autonomous SRE Agent Investigation Loop</h3>
-                <span class="agent-sub">Powered by MCP Protocol & Vectorized RAG</span>
-              </div>
-            </div>
-            <button class="primary-btn pulse-glow" id="btnTriggerInvestigation">
-              <span>🚨</span> Trigger Autonomous Investigation
-            </button>
+    <!-- ==================== TAB 3: AUTONOMOUS AI SRE AGENT ==================== -->
+    <section class="page-tab" id="tab-agent">
+      <div class="tab-header-strip">
+        <div>
+          <h2>Autonomous AI SRE Incident Investigator</h2>
+          <p class="tab-sub">Model Context Protocol (MCP) live diagnostic loop correlated with vectorized RAG playbooks.</p>
+        </div>
+        <button class="btn-primary-alert pulse" id="btnTriggerInvestigation">
+          <span>🚨 Trigger Autonomous Investigation</span>
+        </button>
+      </div>
+
+      <div class="surface-split">
+        <!-- Left: Live Thought Stream & MCP Tool Execution -->
+        <div class="surface-col">
+          <div class="col-head">
+            <h3>Agent Thought Stream & Tool Execution</h3>
+            <span class="col-badge">MCP Protocol</span>
           </div>
+          <p class="col-desc">Step-by-step reasoning chain as the agent probes metrics, pulls logs, inspects commits, and matches playbooks.</p>
 
-          <!-- Live Terminal Thought Stream -->
-          <div class="agent-terminal" id="agentTerminal">
-            <div class="terminal-line system-line">
-              <span class="prompt-symbol">&gt;</span> ChangeGuard SRE Agent initialized. Watching telemetry metrics and Prometheus alerts.
-            </div>
-            <div class="terminal-line idle-line">
-              <span class="prompt-symbol">&gt;</span> Ready. Trigger chaos injection in Tab 1, or click "Trigger Autonomous Investigation" above.
-            </div>
+          <div class="polar-terminal" id="agentTerminal">
+            <div class="term-line sys">&gt; ChangeGuard SRE Agent initialized. Watching telemetry metrics and Prometheus alerts.</div>
+            <div class="term-line idle">&gt; Ready. Inject chaos in Tab 1, or click "Trigger Autonomous Investigation" above.</div>
           </div>
         </div>
 
-        <!-- RCA & Remediation Card -->
-        <div class="panel glass rca-panel" id="rcaCardPanel">
-          <div class="panel-header">
-            <h3>📋 Root Cause Analysis & Remediation</h3>
-            <span class="badge" id="rcaStatusBadge">NO ACTIVE INCIDENT</span>
+        <!-- Right: Root Cause Analysis & Remediation Card -->
+        <div class="surface-col">
+          <div class="col-head">
+            <h3>Root Cause Analysis & Remediation</h3>
+            <span class="tier-pill" id="rcaStatusBadge">NO ACTIVE INCIDENT</span>
           </div>
 
-          <div class="rca-empty-state" id="rcaEmptyState">
-            <div class="rca-icon">🔍</div>
-            <p>No active investigation running. When an alert fires, the AI agent will autonomously query MCP tools, correlate logs and Git commits, match historical playbooks, and formulate remediation here.</p>
+          <div class="rca-empty-placeholder" id="rcaEmptyState">
+            <span class="placeholder-icon">🤖</span>
+            <p>No active investigation. When degradation occurs, the AI agent will autonomously query MCP tools, correlate logs and Git commits, match historical playbooks, and formulate remediation here.</p>
           </div>
 
-          <div class="rca-content" id="rcaContent" style="display:none;">
-            <div class="rca-field">
-              <span class="rca-label">Incident ID & Severity:</span>
-              <div class="rca-val" id="rcaIncidentMeta"><span class="badge critical-badge">P1</span> INC-20261030</div>
+          <div class="rca-panel-body" id="rcaContent" style="display:none;">
+            <div class="rca-block">
+              <span class="rca-lbl">Incident Identification</span>
+              <div class="incident-tag" id="rcaIncidentMeta"><span class="badge-p1">P1</span> INC-20261030</div>
             </div>
 
-            <div class="rca-field">
-              <span class="rca-label">Primary Root Cause:</span>
-              <div class="rca-val highlight-cause" id="rcaPrimaryCause">Synchronous blocking latency injected on request pipeline.</div>
+            <div class="rca-block">
+              <span class="rca-lbl">Primary Root Cause</span>
+              <div class="cause-highlight-box" id="rcaPrimaryCause">Synchronous blocking latency injected on telemetry request pipeline.</div>
             </div>
 
-            <div class="rca-field">
-              <span class="rca-label">Historical RAG Correlation:</span>
-              <div class="rca-val rca-rag-box" id="rcaRagBox">
-                <strong id="rcaRagTitle">P1: Latency Degradation in California Fleet</strong>
-                <span class="rag-badge" id="rcaRagConfidence">94% Match</span>
+            <div class="rca-block">
+              <span class="rca-lbl">RAG Historical Playbook Match</span>
+              <div class="rag-correlation-card" id="rcaRagBox">
+                <div class="rag-header">
+                  <strong id="rcaRagTitle">P1: Latency Degradation in California Fleet</strong>
+                  <span class="confidence-badge" id="rcaRagConfidence">94% Match</span>
+                </div>
                 <p id="rcaRagRemediation">Rollback Git revision and verify worker thread normalization.</p>
               </div>
             </div>
 
-            <div class="rca-field">
-              <span class="rca-label">Remediation Action:</span>
-              <div class="rca-val rollback-proposal" id="rcaRollbackProposal">
+            <div class="rca-block">
+              <span class="rca-lbl">Remediation Action</span>
+              <div class="remediation-proposal" id="rcaRollbackProposal">
                 <span>Proposed Action: Automated GitOps Rollback to revision <code>v2.4.0-stable</code></span>
               </div>
             </div>
 
-            <!-- Human-in-the-Loop Action Button -->
-            <div class="remediation-actions">
-              <button class="primary-btn success-btn glow" id="btnApproveRollback">
-                <span class="btn-icon">✅</span> Approve & Execute GitOps Rollback
-              </button>
-            </div>
+            <!-- Human-in-the-Loop Rollback Button -->
+            <button class="btn-success-wide" id="btnApproveRollback">
+              <span>✅ Approve & Execute GitOps Rollback</span>
+            </button>
 
-            <div class="recovery-verification" id="recoveryBox" style="display:none;">
-              <span class="verify-icon">🎉</span>
+            <!-- Recovery Verified Card -->
+            <div class="recovery-banner" id="recoveryBox" style="display:none;">
+              <span class="banner-icon">🎉</span>
               <div>
                 <strong>Recovery Verified!</strong>
                 <p id="recoveryDetails">Service latency restored to &lt; 50ms, error rate 0.0%, all health checks green.</p>
@@ -370,24 +495,26 @@
           </div>
         </div>
       </div>
-    </main>
+    </section>
 
-    <!-- Tab 4: Historical Incident Playbooks (RAG) -->
-    <main class="tab-content" id="tab-playbooks">
-      <div class="panel glass playbooks-panel">
-        <div class="panel-header">
-          <h3>📚 RAG Incident Knowledge Base & Post-Mortems</h3>
-          <span class="badge info-badge">Vectorized Knowledge Base</span>
+    <!-- ==================== TAB 4: HISTORICAL INCIDENT PLAYBOOKS ==================== -->
+    <section class="page-tab" id="tab-playbooks">
+      <div class="tab-header-strip">
+        <div>
+          <h2>Historical Incident Knowledge Base & Playbooks</h2>
+          <p class="tab-sub">Curated post-mortems indexed into the RAG vector store for instant agent similarity matching.</p>
         </div>
-        <p class="panel-desc">Curated post-mortems and incident resolution runbooks indexed in the RAG vector store for instant agent similarity matching.</p>
-
-        <div class="kb-grid" id="kbGrid">
-          <!-- Dynamically populated from /rag/postmortems -->
-        </div>
+        <span class="col-badge">8 Indexed Documents</span>
       </div>
-    </main>
+
+      <div class="playbooks-flat-grid" id="kbGrid">
+        <!-- Dynamically populated from /rag/postmortems -->
+      </div>
+    </section>
+
   </div>
 
+  <!-- Scripts -->
   <script src="js/app.js"></script>
   <script src="js/metrics.js"></script>
   <script src="js/risk_panel.js"></script>
