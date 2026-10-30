@@ -1,40 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OpsGuard — Autonomous SRE & Change-Intelligence Platform</title>
-  <meta name="description" content="AI-powered change risk scoring, blast-radius prediction, and autonomous incident investigation with MCP tools and vectorized RAG playbooks.">
+  <meta name="description" content="A field guide and autonomous SRE platform: pre-deploy risk scoring, blast-radius topology, and autonomous incident investigation with MCP tools and vectorized RAG playbooks.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <!-- Ambient Atmospheric Lighting -->
-  <div class="ambient-glow glow-top"></div>
-  <div class="ambient-glow glow-bottom"></div>
+<body class="bg-paper text-ink">
 
-  <!-- ==================== HEADER (SCAFFFOLD / NODEBASE STYLE) ==================== -->
-  <header class="app-header">
-    <div class="header-inner">
+  <!-- ==================== HEADER (AGENT.SCAFFFOLD.COM STYLE) ==================== -->
+  <header class="bar-paper">
+    <div class="site-container site-header-inner">
       <!-- Brand Logo -->
       <div class="brand-group" data-tab-target="tab-home">
-        <div class="brand-mark">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            <path d="M12 8v8"></path>
-            <path d="M8 12h8"></path>
-          </svg>
-        </div>
-        <div class="brand-title-wrap">
-          <span class="brand-name">OpsGuard</span>
-          <span class="version-badge">v2.4</span>
-        </div>
+        <a class="brand-link" href="#home" data-tab-switch="tab-home">
+          <span class="brand-logo-mark">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <circle cx="12" cy="11" r="3"></circle>
+            </svg>
+          </span>
+          <span class="brand-title">OpsGuard</span>
+          <span class="brand-dot" aria-hidden="true"></span>
+        </a>
       </div>
 
-      <!-- Navigation Tabs -->
-      <nav class="main-nav" aria-label="Main Navigation">
+      <!-- Navigation Links -->
+      <nav class="site-nav" aria-label="Main Navigation">
         <button class="nav-tab nav-link active" data-tab="tab-home">Overview</button>
         <button class="nav-tab nav-link" data-tab="tab-operations">Runtime & Chaos</button>
         <button class="nav-tab nav-link" data-tab="tab-risk">Change Risk</button>
@@ -48,195 +44,246 @@
       <!-- Right Header Actions -->
       <div class="header-actions">
         <!-- Live Microservice Cluster Status -->
-        <div class="status-cluster" title="System Microservice Health">
+        <div class="health-cluster" title="System Microservice Health">
           <span class="health-dot dot-live" id="dotTelemetry" title="Telemetry :8000"></span>
           <span class="health-dot dot-live" id="dotRisk" title="Risk Engine :8001"></span>
           <span class="health-dot dot-live" id="dotMcp" title="MCP Server :8002"></span>
           <span class="health-dot dot-live" id="dotAgent" title="SRE Agent :8003"></span>
           <span class="health-dot dot-live" id="dotRag" title="RAG Engine :8004"></span>
-          <span class="status-label">5/5 Active</span>
+          <span class="status-label">5/5 Live</span>
         </div>
 
+        <!-- Search / Quick Filter button with shortcut badge -->
+        <button type="button" class="btn btn-ghost btn-sm btn-search-shortcut" data-tab-switch="tab-risk" title="Quick Risk Search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span class="kbd">/</span>
+        </button>
+
+        <!-- Theme Toggle Button (Light/Dark Scafffold Theme) -->
+        <button type="button" aria-label="Toggle dark/light theme" id="btnThemeToggle" class="btn btn-ghost btn-icon btn-sm" title="Toggle light/dark theme">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" class="theme-toggle-glyph">
+            <circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" stroke-width="1.5"></circle>
+            <path d="M10 2.75a7.25 7.25 0 0 1 0 14.5z" fill="currentColor"></path>
+          </svg>
+        </button>
+
         <!-- GitHub Link -->
-        <a href="https://github.com/karambitbarrage15/opsGaurd" target="_blank" rel="noopener" class="btn-nav-github">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <a href="https://github.com/karambitbarrage15/opsGaurd" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" aria-label="GitHub Repository">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
           </svg>
           <span>GitHub</span>
         </a>
 
         <!-- Primary Launch Button -->
-        <button class="btn-header-cta" id="btnNavLaunch">
-          <span>Run SRE Agent</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <button class="btn btn-primary btn-sm" id="btnNavLaunch">
+          <span>Start Agent</span>
+          <span class="btn-arrow" aria-hidden="true">→</span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Page Content Container -->
-  <main class="page-container">
+  <main id="main" class="flex-1">
 
-    <!-- ==================== TAB 0: LANDING PAGE ==================== -->
+    <!-- ==================== TAB 0: LANDING PAGE (AGENT.SCAFFFOLD STYLE) ==================== -->
     <section class="page-tab active" id="tab-home">
-      <!-- Hero Section -->
-      <div class="hero-block">
-        <div class="hero-pill-row" data-tab-switch="tab-agent">
-          <span class="announcement-pill">
-            <svg class="icon-line" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            <span>OpsGuard 2.0 Released</span>
-            <span class="sep">/</span>
-            <span class="desc">Autonomous SRE for the AI Era</span>
-            <svg class="icon-line chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-          </span>
+      <!-- Hero Section with Contour Background -->
+      <div class="hero-scaffold-wrap">
+        <!-- Topographic Contour Lines Background (Signature Scafffold Motif) -->
+        <div class="terrain-background" aria-hidden="true">
+          <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" class="terrain-map" fill="none" stroke="currentColor">
+            <g class="terrain-contours" stroke-width="0.75" stroke-opacity="0.14" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M0.0,105.9C7.9,98.3,37.0,78.3,47.4,60.6C57.8,43.0,60.0,10.1,62.5,0.0M6.0,400.0C7.0,397.6,9.0,388.4,12.1,385.7C15.1,383.1,19.3,381.7,24.2,384.1C29.0,386.5,38.2,397.4,41.0,400.0M274.8,0.0C273.4,2.0,267.1,8.1,266.3,12.1C265.4,16.2,265.5,18.2,269.7,24.2C273.9,30.3,284.2,42.9,291.5,48.5C298.9,54.0,306.2,56.6,314.0,57.5C321.7,58.4,329.0,57.5,338.1,54.0C347.3,50.5,362.6,41.3,368.9,36.4C375.3,31.4,378.4,30.3,376.3,24.2C374.2,18.2,359.7,4.0,356.4,0.0M640.0,79.9C629.9,88.8,591.5,120.4,579.4,133.3C567.4,146.3,571.0,145.5,567.5,157.6C564.1,169.7,558.9,194.6,558.9,206.1C558.9,217.5,554.0,223.5,567.5,226.5C581.1,229.5,627.9,224.7,640.0,224.3"></path>
+              <path d="M0.0,153.4C4.0,148.6,4.0,143.2,24.2,124.4C44.3,105.5,86.5,52.7,120.8,40.2C155.0,27.6,201.3,42.5,229.4,49.0C257.6,55.5,275.7,73.6,289.8,79.3C303.9,85.0,294.7,90.3,314.0,83.2C333.2,76.0,388.9,46.2,405.4,36.4C421.8,26.5,414.6,30.3,412.8,24.2C411.0,18.2,397.5,4.0,394.4,0.0M0.0,342.5C4.0,343.0,12.5,335.7,24.2,345.2C35.8,354.8,62.5,390.9,70.2,400.0M640.0,18.7C636.0,25.9,629.9,45.4,615.8,61.7C601.8,78.1,569.3,88.7,555.5,116.8C541.6,144.9,535.1,207.4,532.8,230.3C530.6,253.3,538.3,249.4,542.1,254.5C545.8,259.7,545.2,263.5,555.5,261.3C565.8,259.1,589.7,245.0,603.8,241.3C617.9,237.6,634.0,239.4,640.0,239.0"></path>
+              <!-- Signature Scafffold Terracotta High-Elevation Highlight Contours -->
+              <path d="M0.0,289.1C12.5,297.2,45.0,320.8,75.0,337.5C105.0,354.3,159.2,380.4,180.0,389.8C200.8,399.3,194.2,393.6,200.0,394.1C205.8,394.7,205.8,398.1,215.0,393.2C224.2,388.2,246.7,369.8,255.0,364.3C263.3,358.8,261.7,361.0,265.0,360.2C268.3,359.5,271.1,358.2,275.0,359.9C278.9,361.5,284.1,363.3,288.5,370.0C292.9,376.7,299.1,395.0,301.2,400.0" stroke="#e8461b" stroke-width="1.6" stroke-opacity="0.85"></path>
+              <path d="M289.9,0.0C293.5,3.3,293.9,9.9,311.5,20.0C329.0,30.1,377.7,53.1,395.0,60.8C412.3,68.6,403.6,65.0,415.0,66.5C426.4,68.0,449.2,67.1,463.4,70.0C477.5,72.9,486.5,76.5,500.0,84.0C513.5,91.5,533.4,106.5,544.3,115.0C555.1,123.5,560.0,129.2,565.3,135.0C570.7,140.8,573.2,144.2,576.4,150.0C579.5,155.8,583.1,165.0,584.3,170.0C585.5,175.0,585.9,176.7,583.7,180.0C581.4,183.3,579.8,185.1,570.8,190.0C561.9,194.9,538.3,204.6,530.0,209.6C521.7,214.6,523.3,216.6,521.2,220.0C519.1,223.4,518.6,215.0,517.6,230.0C516.6,245.0,514.9,281.7,515.5,310.0C516.0,338.3,520.0,385.0,520.9,400.0" stroke="#e8461b" stroke-width="1.4" stroke-opacity="0.8"></path>
+              <path d="M95.3,400.0C86.6,387.9,48.9,347.5,43.0,327.3C37.1,307.1,61.1,290.9,59.9,278.8C58.8,266.7,39.6,266.7,36.2,254.5C32.7,242.4,41.8,220.2,39.5,206.1C37.1,191.9,24.5,177.8,22.0,169.7C19.5,161.6,20.7,163.6,24.4,157.6C28.1,151.5,32.2,143.8,44.2,133.3C56.3,122.8,81.8,103.9,96.6,94.6C111.4,85.3,110.7,79.9,132.8,77.6C155.0,75.2,201.3,74.4,229.4,80.6C257.6,86.8,287.8,109.0,301.9,114.7C316.0,120.4,303.9,121.3,314.0,115.1C324.0,108.8,348.2,86.2,362.3,77.4C376.4,68.7,386.4,65.3,398.5,62.7C410.6,60.1,418.8,60.1,434.7,61.7C450.7,63.4,481.9,68.9,494.2,72.7C506.5,76.6,503.6,72.7,508.3,84.8C513.0,97.0,521.0,117.2,522.6,145.5C524.2,173.7,508.5,222.2,518.0,254.5C527.5,286.9,565.1,323.9,579.4,339.4C593.7,354.9,598.4,347.7,603.8,347.7C609.1,347.7,615.4,348.9,611.6,339.4C607.8,329.9,584.9,303.0,581.1,290.9C577.3,278.8,584.2,272.7,588.9,266.7C593.7,260.6,601.3,257.2,609.8,254.5C618.4,251.8,635.0,251.1,640.0,250.5"></path>
+              <path d="M131.2,400.0C123.4,393.8,95.8,375.1,84.5,363.0C73.3,350.8,67.0,335.2,63.8,327.3C60.5,319.3,60.9,323.2,65.0,315.2C69.2,307.1,85.1,286.9,88.8,278.8C92.5,270.7,91.9,272.7,87.2,266.7C82.6,260.6,63.8,252.5,61.1,242.4C58.5,232.3,70.3,216.2,71.2,206.1C72.1,196.0,69.7,189.9,66.6,181.8C63.5,173.7,53.5,163.6,52.5,157.6C51.5,151.5,47.2,153.9,60.6,145.5C74.0,137.0,108.7,113.6,132.8,106.6C156.9,99.6,187.2,103.1,205.3,103.5C223.4,103.8,229.4,104.2,241.5,108.7C253.6,113.3,252.9,110.4,277.7,130.6C302.5,150.9,362.1,208.9,390.3,230.3C418.5,251.7,435.6,255.0,446.8,259.0C458.0,263.0,457.0,257.3,457.3,254.5C457.6,251.8,463.7,256.6,448.6,242.4C433.6,228.3,384.2,187.9,366.9,169.7C349.6,151.5,347.7,143.0,344.9,133.3C342.1,123.7,347.3,117.6,350.2,111.6C353.1,105.6,354.2,102.1,362.3,97.6C370.3,93.1,382.4,83.8,398.5,84.7C414.6,85.5,443.8,94.5,458.9,102.6C473.9,110.7,481.3,120.1,488.9,133.3C496.5,146.5,502.8,159.6,504.3,181.8C505.9,204.0,493.7,246.5,498.4,266.7C503.1,286.9,520.9,286.9,532.4,303.0C544.0,319.2,555.8,347.4,567.5,363.5C579.3,379.7,597.1,393.9,603.0,400.0"></path>
+            </g>
+          </svg>
         </div>
 
-        <h1 class="hero-title">
-          Autonomous change intelligence <br>
-          <span class="title-shimmer">for production systems.</span>
-        </h1>
+        <div class="site-container relative z-10 py-16 sm:py-20 text-center">
+          <p class="label">Field Guide &amp; Runtime SRE Platform · v2.4</p>
 
-        <p class="hero-description">
-          Predict blast radius before you deploy. When production degrades, an autonomous AI agent investigates live metrics, scans logs, traces Git blame, and executes GitOps remediation.
-        </p>
+          <h1 class="hero-display-title">
+            Understand production<br/>
+            <em>from the inside.</em>
+          </h1>
 
-        <div class="hero-actions">
-          <button class="btn-primary-action" data-tab-switch="tab-operations">
-            <span>Explore Live Operations</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <button class="btn-secondary-action" data-tab-switch="tab-risk">
-            <span>Run Change-Risk Analysis</span>
-          </button>
-        </div>
+          <p class="hero-lede-text">
+            Engineered for developers and SREs to predict blast radius on unified Git diffs before deploy, and autonomously investigate, trace Git blame, and remediate incidents with MCP tools.
+          </p>
 
-        <!-- ==================== 3D INTERACTIVE HERO MOCKUP (NODEBASE STYLE) ==================== -->
-        <div class="hero-mockup-wrapper" id="heroMockupWrapper">
-          <div class="mockup-halo"></div>
-          <div class="mockup-frame" id="heroMockupFrame">
-            <!-- Dynamic Cursor Reflection Glare -->
-            <div class="mockup-glare" id="mockupGlare"></div>
+          <div class="hero-button-row">
+            <button class="btn btn-primary btn-lg" data-tab-switch="tab-operations">
+              <span>Launch Operations Studio</span>
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </button>
+            <button class="btn btn-secondary btn-lg" data-tab-switch="tab-risk">
+              <span>Analyze Change Risk</span>
+            </button>
+          </div>
 
-            <div class="mockup-chrome-bar">
-              <div class="window-controls">
-                <span class="control-dot dot-red"></span>
-                <span class="control-dot dot-amber"></span>
-                <span class="control-dot dot-green"></span>
+          <!-- ==================== 3D INTERACTIVE HERO MOCKUP (NODEBASE HOVER) ==================== -->
+          <div class="hero-mockup-slot" id="heroMockupWrapper">
+            <div class="mockup-frame crop" id="heroMockupFrame">
+              <!-- Cursor Glare Sheen -->
+              <div class="mockup-glare" id="mockupGlare"></div>
+
+              <div class="mockup-top-header">
+                <div class="mockup-nav-dots">
+                  <span class="dot-red"></span>
+                  <span class="dot-amber"></span>
+                  <span class="dot-green"></span>
+                </div>
+                <div class="mockup-center-url">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <span>opsguard.internal/agent/live</span>
+                </div>
+                <div class="mockup-status-dot">
+                  <span class="pulse-dot"></span>
+                  <span class="label">ACTIVE</span>
+                </div>
               </div>
-              <div class="mockup-address-pill">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                <span>opsguard.internal/operations/live</span>
+              <div class="mockup-image-body">
+                <img src="assets/hero-mockup.jpg" alt="OpsGuard Operations Console Mockup" class="mockup-visual" loading="lazy">
               </div>
-              <div class="mockup-active-chip">
-                <span class="pulse-emerald-dot"></span>
-                <span>SYSTEM ACTIVE</span>
-              </div>
-            </div>
-            <div class="mockup-image-slot">
-              <img src="assets/hero-mockup.jpg" alt="OpsGuard Operations Console Mockup" class="mockup-img" loading="lazy">
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Live Telemetry Ticker Strip -->
-      <div class="stats-strip">
-        <div class="stat-item">
-          <span class="stat-number">285</span>
-          <span class="stat-meta">Telemetry Req/s</span>
-        </div>
-        <div class="strip-divider"></div>
-        <div class="stat-item">
-          <span class="stat-number">&lt; 45ms</span>
-          <span class="stat-meta">Baseline p95 Latency</span>
-        </div>
-        <div class="strip-divider"></div>
-        <div class="stat-item">
-          <span class="stat-number">100%</span>
-          <span class="stat-meta">Zero-Cloud Local Stack</span>
-        </div>
-        <div class="strip-divider"></div>
-        <div class="stat-item">
-          <span class="stat-number">10 Tools</span>
-          <span class="stat-meta">Model Context Protocol</span>
+      <!-- Ticker Strip -->
+      <div class="rule-x">
+        <div class="site-container py-8">
+          <div class="stats-grid">
+            <div class="stat-unit">
+              <span class="stat-big">285</span>
+              <span class="label">Telemetry Req/s</span>
+            </div>
+            <div class="stat-unit">
+              <span class="stat-big">&lt; 45ms</span>
+              <span class="label">Baseline p95 Latency</span>
+            </div>
+            <div class="stat-unit">
+              <span class="stat-big">100%</span>
+              <span class="label">Zero-Cloud Local Stack</span>
+            </div>
+            <div class="stat-unit">
+              <span class="stat-big">10 Tools</span>
+              <span class="label">Model Context Protocol</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Features Grid (Monochrome SVG Line Border Icons, No Emojis) -->
-      <div class="features-wrapper">
-        <div class="features-header">
-          <span class="kicker-tag">ENGINEERED FOR DEVSECOPS & SRE</span>
-          <h2 class="features-title">Four layers of automated production defense.</h2>
-        </div>
+      <!-- Plates / Feature Architecture Section (Scafffold Plates Style) -->
+      <div class="rule-x">
+        <div class="site-container py-16">
+          <p class="label">Plates</p>
+          <h2 class="section-display-title">Explanations you can run.</h2>
+          <p class="section-lede">Each plate takes one production mechanism from the system and lets you execute it.</p>
 
-        <div class="features-grid">
-          <div class="feature-card" data-tab-switch="tab-risk">
-            <div class="feature-icon-box">
-              <svg class="icon-line" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                <path d="M11 8v6"></path>
-                <path d="M8 11h6"></path>
-              </svg>
+          <!-- Interactive SRE Loop Plate -->
+          <div class="plate-host mb-10">
+            <div class="plate-interactive-frame crop">
+              <div class="plate-diagram-head">
+                <div class="plate-title-group">
+                  <span class="label">FIG. 1.1</span>
+                  <strong class="plate-diagram-title">THE AUTONOMOUS SRE LOOP</strong>
+                </div>
+                <div class="plate-legend">
+                  <span class="legend-pill pill-plum">TELEMETRY</span>
+                  <span class="legend-pill pill-sea">GIT BLAME</span>
+                  <span class="legend-pill pill-good">RAG PLAYBOOK</span>
+                  <span class="legend-pill pill-signal">MCP REMEDIATION</span>
+                </div>
+              </div>
+              <div class="plate-diagram-flow">
+                <div class="diagram-step-box" data-tab-switch="tab-operations" style="cursor:pointer;">
+                  <span class="step-num">01 / DETECT</span>
+                  <strong class="step-title">Telemetry Anomaly</strong>
+                  <span class="step-meta">p95 &gt; 1200ms spike or 5xx &gt; 5% error stream</span>
+                </div>
+                <div class="diagram-step-box" data-tab-switch="tab-risk" style="cursor:pointer;">
+                  <span class="step-num">02 / ATTRIBUTE</span>
+                  <strong class="step-title">Git Diff &amp; Blame</strong>
+                  <span class="step-meta">AST parse culprit commit author &amp; blast radius</span>
+                </div>
+                <div class="diagram-step-box" data-tab-switch="tab-playbooks" style="cursor:pointer;">
+                  <span class="step-num">03 / RETRIEVE</span>
+                  <strong class="step-title">Vector RAG Match</strong>
+                  <span class="step-meta">Historical post-mortem cosine similarity &gt; 0.92</span>
+                </div>
+                <div class="diagram-step-box" data-tab-switch="tab-agent" style="cursor:pointer;">
+                  <span class="step-num">04 / REMEDIATE</span>
+                  <strong class="step-title">Autonomous MCP</strong>
+                  <span class="step-meta">Execute Git revert &amp; scale replica deployment</span>
+                </div>
+              </div>
             </div>
-            <h3>Pre-Deployment Risk Intelligence</h3>
-            <p>Parses unified git diffs to detect unindexed queries, synchronous blocking sleeps, and destructive migrations. Predicts blast radius before release.</p>
-            <span class="feature-arrow-link">
-              <span>Explore Risk Engine</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
           </div>
 
-          <div class="feature-card" data-tab-switch="tab-operations">
-            <div class="feature-icon-box">
-              <svg class="icon-line" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-              </svg>
-            </div>
-            <h3>Chaos Engineering Studio</h3>
-            <p>Inject realistic latency degradation, 5xx cascades, and memory leaks on demand to test resilience and trigger automated Prometheus alerting.</p>
-            <span class="feature-arrow-link">
-              <span>Test Chaos Studio</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </div>
+          <div class="plates-grid">
+            <!-- Plate 01 -->
+            <article class="plate-card crop" data-tab-switch="tab-risk">
+              <div class="plate-head">
+                <span class="label">Plate 01</span>
+                <span class="plate-tag">Pre-Deploy Gate</span>
+              </div>
+              <h3 class="plate-title">Change-Risk Intelligence</h3>
+              <p class="plate-desc">Parses unified Git diffs to detect unbounded queries, blocking sleeps, and destructive schema migrations before release.</p>
+              <div class="plate-link">
+                <span>Run diff analyzer</span>
+                <span class="btn-arrow">→</span>
+              </div>
+            </article>
 
-          <div class="feature-card" data-tab-switch="tab-agent">
-            <div class="feature-icon-box">
-              <svg class="icon-line" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
-                <rect x="9" y="9" width="6" height="6"></rect>
-                <line x1="9" y1="1" x2="9" y2="4"></line>
-                <line x1="15" y1="1" x2="15" y2="4"></line>
-                <line x1="9" y1="20" x2="9" y2="23"></line>
-                <line x1="15" y1="20" x2="15" y2="23"></line>
-                <line x1="20" y1="9" x2="23" y2="9"></line>
-                <line x1="20" y1="14" x2="23" y2="14"></line>
-                <line x1="1" y1="9" x2="4" y2="9"></line>
-                <line x1="1" y1="14" x2="4" y2="14"></line>
-              </svg>
-            </div>
-            <h3>Autonomous MCP Investigation</h3>
-            <p>Standardized tool protocol allowing the AI agent to inspect Prometheus PromQL, pull container logs, verify Git blame, and propose safe rollbacks.</p>
-            <span class="feature-arrow-link">
-              <span>View SRE Agent</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-          </div>
+            <!-- Plate 02 -->
+            <article class="plate-card crop" data-tab-switch="tab-operations">
+              <div class="plate-head">
+                <span class="label">Plate 02</span>
+                <span class="plate-tag">Telemetry &amp; Faults</span>
+              </div>
+              <h3 class="plate-title">Chaos Engineering Studio</h3>
+              <p class="plate-desc">Inject realistic latency spikes, 5xx cascades, and memory leaks into high-speed vehicle telemetry to test system resilience.</p>
+              <div class="plate-link">
+                <span>Simulate chaos</span>
+                <span class="btn-arrow">→</span>
+              </div>
+            </article>
 
-          <div class="feature-card" data-tab-switch="tab-playbooks">
-            <div class="feature-icon-box">
-              <svg class="icon-line" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              </svg>
-            </div>
-            <h3>Vectorized RAG Post-Mortems</h3>
-            <p>Sub-millisecond semantic retrieval across historical incident playbooks, matching active symptoms to proven engineering fixes.</p>
-            <span class="feature-arrow-link">
-              <span>Browse Playbooks</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
+            <!-- Plate 03 -->
+            <article class="plate-card crop" data-tab-switch="tab-agent">
+              <div class="plate-head">
+                <span class="label">Plate 03</span>
+                <span class="plate-tag">MCP Loop</span>
+              </div>
+              <h3 class="plate-title">Autonomous SRE Investigator</h3>
+              <p class="plate-desc">Open standard Model Context Protocol allowing the AI agent to pull metrics, verify Git blame, and remediate bad commits.</p>
+              <div class="plate-link">
+                <span>Trigger agent</span>
+                <span class="btn-arrow">→</span>
+              </div>
+            </article>
+
+            <!-- Plate 04 -->
+            <article class="plate-card crop" data-tab-switch="tab-playbooks">
+              <div class="plate-head">
+                <span class="label">Plate 04</span>
+                <span class="plate-tag">Vector Store</span>
+              </div>
+              <h3 class="plate-title">Vectorized RAG Playbooks</h3>
+              <p class="plate-desc">Sub-millisecond semantic retrieval across historical incident post-mortems, matching live symptoms to proven fixes.</p>
+              <div class="plate-link">
+                <span>Read playbooks</span>
+                <span class="btn-arrow">→</span>
+              </div>
+            </article>
           </div>
         </div>
       </div>
@@ -244,139 +291,142 @@
 
     <!-- ==================== TAB 1: RUNTIME & CHAOS STUDIO ==================== -->
     <section class="page-tab" id="tab-operations">
-      <div class="section-title-bar">
-        <div>
-          <h2>Runtime Operations & Chaos Studio</h2>
-          <p class="section-subtitle">Real-time connected-vehicle telemetry pipeline with Prometheus metrics and fault injection.</p>
-        </div>
-        <div class="status-indicator-pill" id="globalStatusPill">
-          <span class="indicator-dot"></span>
-          <span id="globalStatusText">ALL SYSTEMS NORMAL</span>
-        </div>
-      </div>
-
-      <!-- Metrics Row (Flat Single Surface) -->
-      <div class="metrics-row">
-        <div class="stat-cell">
-          <span class="stat-label">Throughput</span>
-          <div class="stat-value" id="valThroughput">285 <span class="stat-unit">req/s</span></div>
-          <span class="stat-trend positive" id="trendThroughput">↑ Normal Ingest</span>
-        </div>
-        <div class="stat-cell">
-          <span class="stat-label">p95 Ingestion Latency</span>
-          <div class="stat-value" id="valLatency">42 <span class="stat-unit">ms</span></div>
-          <div class="stat-progress">
-            <div class="stat-bar" id="barLatency" style="width: 14%;"></div>
+      <div class="site-container py-10">
+        <div class="section-head-bar">
+          <div>
+            <p class="label">Plate 02 / Telemetry Pipeline</p>
+            <h2 class="tab-heading">Runtime Operations &amp; Chaos Studio</h2>
+            <p class="section-lede">High-frequency connected vehicle telemetry pipeline with live Prometheus metrics and synthetic chaos injection.</p>
+          </div>
+          <div class="status-indicator-pill" id="globalStatusPill">
+            <span class="indicator-dot"></span>
+            <span id="globalStatusText">ALL SYSTEMS NORMAL</span>
           </div>
         </div>
-        <div class="stat-cell">
-          <span class="stat-label">5xx Error Rate</span>
-          <div class="stat-value" id="valErrorRate">0.0 <span class="stat-unit">%</span></div>
-          <span class="stat-trend neutral" id="trendErrorRate">0 failures</span>
-        </div>
-        <div class="stat-cell">
-          <span class="stat-label">Memory Allocation</span>
-          <div class="stat-value" id="valMemory">142 <span class="stat-unit">MB</span></div>
-          <div class="stat-progress">
-            <div class="stat-bar info-bar" id="barMemory" style="width: 25%;"></div>
+
+        <!-- Metrics Row -->
+        <div class="metrics-plate mt-8">
+          <div class="metric-block">
+            <span class="label">Throughput</span>
+            <div class="metric-num" id="valThroughput">285 <span class="metric-unit">req/s</span></div>
+            <span class="metric-sub positive" id="trendThroughput">↑ Normal Ingest</span>
+          </div>
+          <div class="metric-block">
+            <span class="label">p95 Ingestion Latency</span>
+            <div class="metric-num" id="valLatency">42 <span class="metric-unit">ms</span></div>
+            <div class="progress-line">
+              <div class="progress-bar" id="barLatency" style="width: 14%;"></div>
+            </div>
+          </div>
+          <div class="metric-block">
+            <span class="label">5xx Error Rate</span>
+            <div class="metric-num" id="valErrorRate">0.0 <span class="metric-unit">%</span></div>
+            <span class="metric-sub neutral" id="trendErrorRate">0 failures</span>
+          </div>
+          <div class="metric-block">
+            <span class="label">Memory Allocation</span>
+            <div class="metric-num" id="valMemory">142 <span class="metric-unit">MB</span></div>
+            <div class="progress-line">
+              <div class="progress-bar bar-plum" id="barMemory" style="width: 25%;"></div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Split Layout: Chaos Studio & Live Fleet Stream -->
-      <div class="surface-split">
-        <!-- Left: Chaos Injection -->
-        <div class="surface-col">
-          <div class="col-head">
-            <h3>Chaos Injection Console</h3>
-            <span class="col-badge">Fault Injection</span>
-          </div>
-          <p class="col-desc">Inject synthetic production faults into the telemetry pipeline to observe metrics shift and test autonomous agent response.</p>
+        <!-- Split Grid: Chaos Buttons & Table -->
+        <div class="split-columns mt-8">
+          <!-- Left: Chaos Studio -->
+          <div class="plate-box">
+            <div class="box-head">
+              <h3 class="box-title">Chaos Injection Console</h3>
+              <span class="label">Fault Simulation</span>
+            </div>
+            <p class="box-desc">Inject synthetic production faults into the telemetry pipeline to observe metrics shift and test autonomous agent response.</p>
 
-          <div class="chaos-action-list">
-            <button class="chaos-action-btn chaos-latency-btn" id="btnChaosLatency">
-              <div class="btn-left">
-                <span class="btn-symbol">
-                  <svg class="icon-line" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                </span>
-                <div>
-                  <strong>Inject Latency Spike</strong>
-                  <span>+2500ms delay on vehicle event pipeline</span>
+            <div class="chaos-buttons-stack">
+              <button class="chaos-row-btn" id="btnChaosLatency">
+                <div class="btn-info">
+                  <span class="icon-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  </span>
+                  <div>
+                    <strong>Inject Latency Spike</strong>
+                    <span>+2500ms delay on vehicle event pipeline</span>
+                  </div>
                 </div>
-              </div>
-              <span class="btn-trigger-badge">Trigger</span>
-            </button>
+                <span class="btn-action-tag">Trigger</span>
+              </button>
 
-            <button class="chaos-action-btn chaos-error-btn" id="btnChaosError">
-              <div class="btn-left">
-                <span class="btn-symbol">
-                  <svg class="icon-line" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                </span>
-                <div>
-                  <strong>Inject 50% Error Rate</strong>
-                  <span>Simulate 500 Internal Server Error cascade</span>
+              <button class="chaos-row-btn" id="btnChaosError">
+                <div class="btn-info">
+                  <span class="icon-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                  </span>
+                  <div>
+                    <strong>Inject 50% Error Rate</strong>
+                    <span>Simulate 500 Internal Server Error cascade</span>
+                  </div>
                 </div>
-              </div>
-              <span class="btn-trigger-badge">Trigger</span>
-            </button>
+                <span class="btn-action-tag">Trigger</span>
+              </button>
 
-            <button class="chaos-action-btn chaos-memory-btn" id="btnChaosMemory">
-              <div class="btn-left">
-                <span class="btn-symbol">
-                  <svg class="icon-line" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                </span>
-                <div>
-                  <strong>Inject Memory Leak</strong>
-                  <span>Allocate +150MB unmanaged coordinate buffer</span>
+              <button class="chaos-row-btn" id="btnChaosMemory">
+                <div class="btn-info">
+                  <span class="icon-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                  </span>
+                  <div>
+                    <strong>Inject Memory Leak</strong>
+                    <span>Allocate +150MB unmanaged coordinate buffer</span>
+                  </div>
                 </div>
-              </div>
-              <span class="btn-trigger-badge">Trigger</span>
-            </button>
+                <span class="btn-action-tag">Trigger</span>
+              </button>
 
-            <button class="chaos-action-btn chaos-reset-btn" id="btnChaosReset">
-              <div class="btn-left">
-                <span class="btn-symbol">
-                  <svg class="icon-line" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-                </span>
-                <div>
-                  <strong>Reset All Faults</strong>
-                  <span>Restore healthy baseline parameters</span>
+              <button class="chaos-row-btn btn-reset" id="btnChaosReset">
+                <div class="btn-info">
+                  <span class="icon-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                  </span>
+                  <div>
+                    <strong>Reset All Faults</strong>
+                    <span>Restore healthy baseline parameters</span>
+                  </div>
                 </div>
-              </div>
-              <span class="btn-trigger-badge">Reset</span>
-            </button>
+                <span class="btn-action-tag">Reset</span>
+              </button>
+            </div>
+
+            <div class="box-footer-meta">
+              <span class="label">STATE: <strong id="activeChaosState">Baseline Healthy</strong></span>
+              <span class="label">FAULTS INJECTED: <strong id="chaosIncidentCount">0</strong></span>
+            </div>
           </div>
 
-          <div class="chaos-summary-bar">
-            <span>Current State: <strong id="activeChaosState">Baseline Healthy</strong></span>
-            <span>Faults Injected: <span id="chaosIncidentCount">0</span></span>
-          </div>
-        </div>
+          <!-- Right: Live Fleet Table -->
+          <div class="plate-box">
+            <div class="box-head">
+              <h3 class="box-title">Connected Fleet Telemetry Stream</h3>
+              <span class="label"><span class="pulse-dot"></span> LIVE 2s</span>
+            </div>
+            <p class="box-desc">Continuous high-frequency ingestion stream from California &amp; Nevada connected vehicle fleets.</p>
 
-        <!-- Right: Live Fleet Table -->
-        <div class="surface-col">
-          <div class="col-head">
-            <h3>Connected Fleet Telemetry Stream</h3>
-            <span class="live-tag"><span class="pulse-ring-dot"></span> LIVE 2s</span>
-          </div>
-          <p class="col-desc">Continuous high-frequency ingestion stream from California & Nevada vehicle fleets.</p>
-
-          <div class="table-container">
-            <table class="polar-table">
-              <thead>
-                <tr>
-                  <th>VIN</th>
-                  <th>Fleet</th>
-                  <th>Speed</th>
-                  <th>Battery SoC</th>
-                  <th>Firmware</th>
-                  <th>Latency</th>
-                </tr>
-              </thead>
-              <tbody id="telemetryBody">
-                <!-- Dynamically populated -->
-              </tbody>
-            </table>
+            <div class="table-wrap">
+              <table class="scaffold-table">
+                <thead>
+                  <tr>
+                    <th>VIN</th>
+                    <th>Fleet</th>
+                    <th>Speed</th>
+                    <th>Battery</th>
+                    <th>Firmware</th>
+                    <th>Latency</th>
+                  </tr>
+                </thead>
+                <tbody id="telemetryBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -384,88 +434,91 @@
 
     <!-- ==================== TAB 2: PRE-DEPLOY CHANGE RISK ==================== -->
     <section class="page-tab" id="tab-risk">
-      <div class="section-title-bar">
-        <div>
-          <h2>Pre-Deploy Change-Risk Analysis</h2>
-          <p class="section-subtitle">Automated PR blast-radius prediction, code pattern heuristics, and deployment safety scoring.</p>
-        </div>
-      </div>
-
-      <div class="surface-split">
-        <!-- Left: Input & Sample Picker -->
-        <div class="surface-col">
-          <div class="col-head">
-            <h3>Pull Request Diff Input</h3>
-            <span class="col-badge">Pre-Deployment Gate</span>
+      <div class="site-container py-10">
+        <div class="section-head-bar">
+          <div>
+            <p class="label">Plate 01 / Pre-Deploy Gate</p>
+            <h2 class="tab-heading">Change-Risk &amp; Blast Radius Engine</h2>
+            <p class="section-lede">Automated PR blast-radius prediction, code pattern heuristics, and deployment safety scoring.</p>
           </div>
-
-          <div class="sample-pills-row">
-            <span class="sample-label">Scenarios:</span>
-            <button class="pill-action active" id="btnSampleQuery">Unbounded Query & Sleep</button>
-            <button class="pill-action" id="btnSampleMemory">Memory Buffer Leak</button>
-            <button class="pill-action" id="btnSampleDocs">Safe Documentation</button>
-          </div>
-
-          <div class="field-wrap">
-            <label for="commitMessageInput">Commit Message</label>
-            <input type="text" id="commitMessageInput" value="feat(telemetry): add batch historical vehicle lookups" class="polar-input">
-          </div>
-
-          <div class="field-wrap">
-            <label for="diffTextInput">Git Unified Diff</label>
-            <textarea id="diffTextInput" rows="12" class="polar-textarea" placeholder="Paste unified diff here..."></textarea>
-          </div>
-
-          <button class="btn-primary-wide" id="btnAnalyzeRisk">
-            <svg class="icon-line" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
-            <span>Run AI Change-Risk Analysis</span>
-          </button>
         </div>
 
-        <!-- Right: Assessment Results -->
-        <div class="surface-col">
-          <div class="col-head">
-            <h3>Safety Assessment Report</h3>
-            <span class="tier-pill" id="riskTierBadge">AWAITING INPUT</span>
-          </div>
-
-          <div class="risk-gauge-block">
-            <div class="gauge-svg-wrap">
-              <svg viewBox="0 0 100 100">
-                <circle class="gauge-track" cx="50" cy="50" r="42"></circle>
-                <circle class="gauge-meter" id="circleFill" cx="50" cy="50" r="42"></circle>
-              </svg>
-              <div class="gauge-center-val" id="riskScoreNumber">--</div>
+        <div class="split-columns mt-8">
+          <!-- Left: Input & Diff -->
+          <div class="plate-box">
+            <div class="box-head">
+              <h3 class="box-title">Pull Request Diff Input</h3>
+              <span class="label">AST &amp; Diff Parser</span>
             </div>
-            <div class="gauge-meta">
-              <h4 id="approvalStatusTitle">Analysis Ready</h4>
-              <p id="approvalStatusDesc">Submit a code diff to evaluate blast radius, schema migrations, and deployment risks.</p>
-              <div class="canary-chip" id="canaryStrategyBox" style="display:none;">
-                <span class="chip-lbl">Canary Strategy:</span>
-                <strong id="canaryStrategyVal">Standard Rolling</strong>
+
+            <div class="scenario-pills">
+              <span class="label">Scenarios:</span>
+              <button class="pill-btn active" id="btnSampleQuery">Unbounded Query &amp; Sleep</button>
+              <button class="pill-btn" id="btnSampleMemory">Memory Buffer Leak</button>
+              <button class="pill-btn" id="btnSampleDocs">Safe Documentation</button>
+            </div>
+
+            <div class="form-group">
+              <label class="label" for="commitMessageInput">Commit Message</label>
+              <input type="text" id="commitMessageInput" value="feat(telemetry): add batch historical vehicle lookups" class="scaffold-input">
+            </div>
+
+            <div class="form-group">
+              <label class="label" for="diffTextInput">Git Unified Diff</label>
+              <textarea id="diffTextInput" rows="12" class="scaffold-textarea" placeholder="Paste unified diff here..."></textarea>
+            </div>
+
+            <button class="btn btn-primary btn-block" id="btnAnalyzeRisk">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+              <span>Run AI Change-Risk Analysis</span>
+            </button>
+          </div>
+
+          <!-- Right: Safety Report -->
+          <div class="plate-box">
+            <div class="box-head">
+              <h3 class="box-title">Safety Assessment Report</h3>
+              <span class="tier-tag" id="riskTierBadge">AWAITING INPUT</span>
+            </div>
+
+            <div class="risk-summary-card">
+              <div class="gauge-holder">
+                <svg viewBox="0 0 100 100" class="gauge-circle">
+                  <circle class="gauge-bg" cx="50" cy="50" r="42"></circle>
+                  <circle class="gauge-val" id="circleFill" cx="50" cy="50" r="42"></circle>
+                </svg>
+                <div class="gauge-center" id="riskScoreNumber">--</div>
+              </div>
+              <div class="gauge-text">
+                <h4 id="approvalStatusTitle" class="status-title">Analysis Ready</h4>
+                <p id="approvalStatusDesc" class="status-desc">Submit a code diff to evaluate blast radius, schema migrations, and deployment risks.</p>
+                <div class="canary-chip" id="canaryStrategyBox" style="display:none;">
+                  <span class="label">Canary:</span>
+                  <strong id="canaryStrategyVal">Standard Rolling</strong>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="details-section">
-            <span class="details-heading">Identified Risk Factors</span>
-            <div class="factors-flat-list" id="factorsList">
-              <div class="muted-text">Select a scenario or paste a diff to run analysis.</div>
+            <div class="report-section">
+              <span class="label">Identified Risk Factors</span>
+              <div class="factors-list" id="factorsList">
+                <div class="muted-note">Select a scenario or paste a diff to run analysis.</div>
+              </div>
             </div>
-          </div>
 
-          <div class="details-section">
-            <span class="details-heading">Blast Radius & Affected Services</span>
-            <div class="service-pill-cluster" id="affectedServicesList">
-              <!-- Dynamically populated -->
+            <div class="report-section">
+              <span class="label">Blast Radius &amp; Affected Services</span>
+              <div class="service-tags-wrap" id="affectedServicesList">
+                <!-- Dynamically populated -->
+              </div>
             </div>
-          </div>
 
-          <div class="details-section">
-            <span class="details-heading">Safety Recommendations</span>
-            <ul class="clean-bullet-list" id="recommendationsList">
-              <!-- Dynamically populated -->
-            </ul>
+            <div class="report-section">
+              <span class="label">Safety Recommendations</span>
+              <ul class="recommendation-list" id="recommendationsList">
+                <!-- Dynamically populated -->
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -473,92 +526,93 @@
 
     <!-- ==================== TAB 3: AUTONOMOUS AI SRE AGENT ==================== -->
     <section class="page-tab" id="tab-agent">
-      <div class="section-title-bar">
-        <div>
-          <h2>Autonomous AI SRE Incident Investigator</h2>
-          <p class="section-subtitle">Model Context Protocol (MCP) live diagnostic loop correlated with vectorized RAG playbooks.</p>
-        </div>
-        <button class="btn-primary-alert pulse" id="btnTriggerInvestigation">
-          <svg class="icon-line" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-          <span>Trigger Autonomous Investigation</span>
-        </button>
-      </div>
-
-      <div class="surface-split">
-        <!-- Left: Live Thought Stream & MCP Tool Execution -->
-        <div class="surface-col">
-          <div class="col-head">
-            <h3>Agent Thought Stream & Tool Execution</h3>
-            <span class="col-badge">MCP Protocol</span>
+      <div class="site-container py-10">
+        <div class="section-head-bar">
+          <div>
+            <p class="label">Plate 03 / Model Context Protocol</p>
+            <h2 class="tab-heading">Autonomous AI SRE Incident Investigator</h2>
+            <p class="section-lede">Model Context Protocol (MCP) live diagnostic loop correlated with vectorized RAG incident playbooks.</p>
           </div>
-          <p class="col-desc">Step-by-step reasoning chain as the agent probes metrics, pulls logs, inspects commits, and matches playbooks.</p>
-
-          <div class="polar-terminal" id="agentTerminal">
-            <div class="term-line sys">&gt; OpsGuard SRE Agent initialized. Watching telemetry metrics and Prometheus alerts.</div>
-            <div class="term-line idle">&gt; Ready. Inject chaos in Tab 1, or click "Trigger Autonomous Investigation" above.</div>
-          </div>
+          <button class="btn btn-primary alert-btn" id="btnTriggerInvestigation">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span>Trigger Autonomous Investigation</span>
+          </button>
         </div>
 
-        <!-- Right: Root Cause Analysis & Remediation Card -->
-        <div class="surface-col">
-          <div class="col-head">
-            <h3>Root Cause Analysis & Remediation</h3>
-            <span class="tier-pill" id="rcaStatusBadge">NO ACTIVE INCIDENT</span>
+        <div class="split-columns mt-8">
+          <!-- Left: Live Thought Stream -->
+          <div class="plate-box">
+            <div class="box-head">
+              <h3 class="box-title">Agent Thought Stream &amp; Tool Execution</h3>
+              <span class="label">MCP Protocol</span>
+            </div>
+            <p class="box-desc">Step-by-step reasoning chain as the agent probes metrics, pulls logs, inspects commits, and matches playbooks.</p>
+
+            <div class="scaffold-terminal" id="agentTerminal">
+              <div class="term-line sys">&gt; OpsGuard SRE Agent initialized. Watching telemetry metrics and Prometheus alerts.</div>
+              <div class="term-line idle">&gt; Ready. Inject chaos in Tab 1, or click "Trigger Autonomous Investigation" above.</div>
+            </div>
           </div>
 
-          <div class="rca-empty-placeholder" id="rcaEmptyState">
-            <svg class="icon-line empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-              <line x1="8" y1="9" x2="16" y2="9"></line>
-              <line x1="8" y1="13" x2="14" y2="13"></line>
-              <line x1="8" y1="17" x2="11" y2="17"></line>
-            </svg>
-            <p>No active investigation. When degradation occurs, the AI agent will autonomously query MCP tools, correlate logs and Git commits, match historical playbooks, and formulate remediation here.</p>
-          </div>
-
-          <div class="rca-panel-body" id="rcaContent" style="display:none;">
-            <div class="rca-block">
-              <span class="rca-lbl">Incident Identification</span>
-              <div class="incident-tag" id="rcaIncidentMeta"><span class="badge-p1">P1</span> INC-20261030</div>
+          <!-- Right: Root Cause Analysis & Remediation -->
+          <div class="plate-box">
+            <div class="box-head">
+              <h3 class="box-title">Root Cause Analysis &amp; Remediation</h3>
+              <span class="tier-tag" id="rcaStatusBadge">NO ACTIVE INCIDENT</span>
             </div>
 
-            <div class="rca-block">
-              <span class="rca-lbl">Primary Root Cause</span>
-              <div class="cause-highlight-box" id="rcaPrimaryCause">Synchronous blocking latency injected on telemetry request pipeline.</div>
+            <div class="empty-state-card" id="rcaEmptyState">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                <line x1="8" y1="9" x2="16" y2="9"></line>
+                <line x1="8" y1="13" x2="14" y2="13"></line>
+                <line x1="8" y1="17" x2="11" y2="17"></line>
+              </svg>
+              <p>No active investigation. When degradation occurs, the AI agent will autonomously query MCP tools, correlate logs and Git commits, match historical playbooks, and formulate remediation here.</p>
             </div>
 
-            <div class="rca-block">
-              <span class="rca-lbl">RAG Historical Playbook Match</span>
-              <div class="rag-correlation-card" id="rcaRagBox">
-                <div class="rag-header">
-                  <strong id="rcaRagTitle">P1: Latency Degradation in California Fleet</strong>
-                  <span class="confidence-badge" id="rcaRagConfidence">94% Match</span>
+            <div class="rca-card-content" id="rcaContent" style="display:none;">
+              <div class="rca-row">
+                <span class="label">Incident Identification</span>
+                <div class="incident-code" id="rcaIncidentMeta"><span class="badge-p1">P1</span> INC-20261030</div>
+              </div>
+
+              <div class="rca-row">
+                <span class="label">Primary Root Cause</span>
+                <div class="cause-text-box" id="rcaPrimaryCause">Synchronous blocking latency injected on telemetry request pipeline.</div>
+              </div>
+
+              <div class="rca-row">
+                <span class="label">RAG Historical Playbook Match</span>
+                <div class="rag-result-box" id="rcaRagBox">
+                  <div class="rag-title-row">
+                    <strong id="rcaRagTitle">P1: Latency Degradation in California Fleet</strong>
+                    <span class="confidence-tag" id="rcaRagConfidence">94% Match</span>
+                  </div>
+                  <p id="rcaRagRemediation">Rollback Git revision and verify worker thread normalization.</p>
                 </div>
-                <p id="rcaRagRemediation">Rollback Git revision and verify worker thread normalization.</p>
               </div>
-            </div>
 
-            <div class="rca-block">
-              <span class="rca-lbl">Remediation Action</span>
-              <div class="remediation-proposal" id="rcaRollbackProposal">
-                <span>Proposed Action: Automated GitOps Rollback to revision <code>v2.4.0-stable</code></span>
+              <div class="rca-row">
+                <span class="label">Remediation Action</span>
+                <div class="proposal-text" id="rcaRollbackProposal">
+                  <span>Proposed Action: Automated GitOps Rollback to revision <code>v2.4.0-stable</code></span>
+                </div>
               </div>
-            </div>
 
-            <!-- Human-in-the-Loop Rollback Button -->
-            <button class="btn-success-wide" id="btnApproveRollback">
-              <svg class="icon-line" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
-              <span>Approve & Execute GitOps Rollback</span>
-            </button>
+              <!-- Rollback Button -->
+              <button class="btn btn-primary btn-block btn-rollback" id="btnApproveRollback">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
+                <span>Approve &amp; Execute GitOps Rollback</span>
+              </button>
 
-            <!-- Recovery Verified Card -->
-            <div class="recovery-banner" id="recoveryBox" style="display:none;">
-              <span class="banner-icon">
-                <svg class="icon-line" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-              </span>
-              <div>
-                <strong>Recovery Verified!</strong>
-                <p id="recoveryDetails">Service latency restored to &lt; 50ms, error rate 0.0%, all health checks green.</p>
+              <!-- Recovery Verified Banner -->
+              <div class="recovery-toast" id="recoveryBox" style="display:none;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <div>
+                  <strong>Recovery Verified!</strong>
+                  <p id="recoveryDetails">Service latency restored to &lt; 50ms, error rate 0.0%, all health checks green.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -568,91 +622,83 @@
 
     <!-- ==================== TAB 4: HISTORICAL INCIDENT PLAYBOOKS ==================== -->
     <section class="page-tab" id="tab-playbooks">
-      <div class="section-title-bar">
-        <div>
-          <h2>Historical Incident Knowledge Base & Playbooks</h2>
-          <p class="section-subtitle">Curated post-mortems indexed into the RAG vector store for instant agent similarity matching.</p>
+      <div class="site-container py-10">
+        <div class="section-head-bar">
+          <div>
+            <p class="label">Plate 04 / Knowledge Base</p>
+            <h2 class="tab-heading">Historical Incident Post-Mortems</h2>
+            <p class="section-lede">Curated post-mortems indexed into the RAG vector store for instant agent similarity matching.</p>
+          </div>
+          <span class="label">8 Indexed Documents</span>
         </div>
-        <span class="col-badge">8 Indexed Documents</span>
-      </div>
 
-      <div class="playbooks-flat-grid" id="kbGrid">
-        <!-- Dynamically populated from /rag/postmortems -->
+        <div class="playbooks-grid mt-8" id="kbGrid">
+          <!-- Dynamically populated from /rag/postmortems -->
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ==================== COMPREHENSIVE FOOTER (SCAFFFOLD / NODEBASE STYLE) ==================== -->
-  <footer class="app-footer">
-    <div class="footer-container">
-      <div class="footer-grid">
-        <!-- Column 1: Brand & Status -->
-        <div class="footer-brand-col">
-          <div class="footer-brand">
-            <div class="footer-logo">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            </div>
-            <span class="footer-title">OpsGuard</span>
+  <!-- ==================== FOOTER (AGENT.SCAFFFOLD STYLE) ==================== -->
+  <footer class="rule-x mt-32">
+    <div class="site-container py-12">
+      <div class="footer-layout">
+        <div class="footer-brand-side">
+          <div class="brand-link">
+            <span class="brand-logo-mark">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </span>
+            <span class="brand-title">OpsGuard</span>
+            <span class="brand-dot" aria-hidden="true"></span>
           </div>
-          <p class="footer-desc">
-            Autonomous SRE & Change-Intelligence Platform. Built for zero-downtime microservices through AST change-risk scoring and MCP agent self-healing.
+          <p class="footer-mission">
+            Autonomous Site Reliability Engineering &amp; Change-Intelligence. Pre-deploy AST diff analysis, Prometheus telemetry, and MCP agent self-healing.
           </p>
-          <div class="footer-status-pill">
-            <span class="pulse-emerald-dot"></span>
-            <span>All 6 Microservices Operational</span>
+          <div class="status-pill-small">
+            <span class="pulse-dot"></span>
+            <span class="label">All 6 Microservices Operational</span>
           </div>
         </div>
 
-        <!-- Column 2: Platform -->
-        <div class="footer-col">
-          <h4>Platform</h4>
-          <ul class="footer-links">
-            <li><button class="footer-link-btn" data-tab-switch="tab-home">Overview</button></li>
-            <li><button class="footer-link-btn" data-tab-switch="tab-operations">Runtime & Chaos</button></li>
-            <li><button class="footer-link-btn" data-tab-switch="tab-risk">Change Risk Analysis</button></li>
-            <li><button class="footer-link-btn" data-tab-switch="tab-agent">Autonomous SRE Agent</button></li>
-            <li><button class="footer-link-btn" data-tab-switch="tab-playbooks">Post-Mortem Playbooks</button></li>
-          </ul>
-        </div>
+        <div class="footer-columns">
+          <div class="footer-col">
+            <span class="label">Platform</span>
+            <ul class="footer-list">
+              <li><button class="footer-btn" data-tab-switch="tab-home">Overview</button></li>
+              <li><button class="footer-btn" data-tab-switch="tab-operations">Runtime &amp; Chaos</button></li>
+              <li><button class="footer-btn" data-tab-switch="tab-risk">Change Risk Analysis</button></li>
+              <li><button class="footer-btn" data-tab-switch="tab-agent">Autonomous SRE Agent</button></li>
+              <li><button class="footer-btn" data-tab-switch="tab-playbooks">Post-Mortem Library</button></li>
+            </ul>
+          </div>
 
-        <!-- Column 3: Architecture & Tech -->
-        <div class="footer-col">
-          <h4>Architecture</h4>
-          <ul class="footer-links">
-            <li><span class="footer-text-link">Python 3.12 / FastAPI</span></li>
-            <li><span class="footer-text-link">Model Context Protocol (MCP)</span></li>
-            <li><span class="footer-text-link">Vectorized RAG / Cosine Sim</span></li>
-            <li><span class="footer-text-link">Prometheus TSDB Metrics</span></li>
-            <li><span class="footer-text-link">Docker Compose Scaffolding</span></li>
-          </ul>
-        </div>
+          <div class="footer-col">
+            <span class="label">Architecture</span>
+            <ul class="footer-list">
+              <li><span>Python 3.12 / FastAPI</span></li>
+              <li><span>Model Context Protocol</span></li>
+              <li><span>Vectorized RAG / TF-IDF</span></li>
+              <li><span>Prometheus TSDB</span></li>
+              <li><span>Docker Compose</span></li>
+            </ul>
+          </div>
 
-        <!-- Column 4: SRE Observability -->
-        <div class="footer-col">
-          <h4>Observability</h4>
-          <ul class="footer-links">
-            <li><span class="footer-text-link">Mean Time to Detect &lt; 3s</span></li>
-            <li><span class="footer-text-link">Mean Time to Remediate &lt; 5s</span></li>
-            <li><span class="footer-text-link">Blast-Radius Dependency Graph</span></li>
-            <li><span class="footer-text-link">Zero-Cloud Local Stack</span></li>
-            <li><a href="https://github.com/karambitbarrage15/opsGaurd" target="_blank" rel="noopener" class="footer-link-out">GitHub Repository ↗</a></li>
-          </ul>
+          <div class="footer-col">
+            <span class="label">Engineering</span>
+            <ul class="footer-list">
+              <li><span>MTTD &lt; 3 Seconds</span></li>
+              <li><span>MTTR &lt; 5 Seconds</span></li>
+              <li><span>Blast Radius Topology</span></li>
+              <li><a href="https://github.com/karambitbarrage15/opsGaurd" target="_blank" rel="noopener" class="link">GitHub Repository ↗</a></li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <!-- Footer Sub-bar -->
-      <div class="footer-bottom-bar">
-        <div class="footer-copy">
-          © 2026 OpsGuard. Developed for Enterprise SRE & Change-Intelligence.
-        </div>
-        <div class="footer-badges">
-          <span class="badge-tag">Localhost :3000</span>
-          <span class="badge-tag">MCP Tools :8002</span>
-          <span class="badge-tag">Prometheus :9090</span>
-        </div>
+      <div class="footer-rule-bottom">
+        <p class="label">© 2026 OPSGUARD · BUILT FOR SRE PRACTITIONERS</p>
+        <p class="label" style="text-transform:uppercase;">SET IN NEWSREADER, GEIST &amp; GEIST MONO · CONTOURS SEEDED FROM LIVE TELEMETRY</p>
       </div>
     </div>
   </footer>

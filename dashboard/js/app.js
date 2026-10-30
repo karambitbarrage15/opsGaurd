@@ -11,6 +11,7 @@ window.CONFIG = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  initThemeToggle();
   initTabs();
   initServiceHealthCheck();
   loadPlaybooks();
@@ -201,4 +202,27 @@ function initHeroHover() {
       glare.style.opacity = "0";
     }
   });
+}
+
+/**
+ * Scafffold Theme Toggle Controller (Warm Paper Light <-> Night Paper Dark)
+ */
+function initThemeToggle() {
+  const toggleBtn = document.getElementById("btnThemeToggle");
+  let currentTheme = localStorage.getItem("opsguard-theme");
+  if (!currentTheme) {
+    currentTheme = "light";
+    localStorage.setItem("opsguard-theme", "light");
+  }
+  document.documentElement.setAttribute("data-theme", currentTheme);
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const nextTheme = current === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      localStorage.setItem("opsguard-theme", nextTheme);
+    });
+  }
 }
