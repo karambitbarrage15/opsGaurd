@@ -46,7 +46,7 @@ function initAgentStream() {
       appendTerminalLine("system-line", `Failed to contact SRE agent: ${e.message}`);
     } finally {
       btnTrigger.disabled = false;
-      btnTrigger.innerHTML = `<span>🚨</span> Trigger Autonomous Investigation`;
+      btnTrigger.innerHTML = `<svg class="icon-line" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> <span>Trigger Autonomous Investigation</span>`;
     }
   });
 
@@ -157,7 +157,7 @@ function renderRCA(report) {
   if (btnRollback) {
     btnRollback.style.display = "flex";
     btnRollback.disabled = false;
-    btnRollback.innerHTML = `<span class="btn-icon">✅</span> Approve & Execute GitOps Rollback`;
+    btnRollback.innerHTML = `<svg class="icon-line" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg> <span>Approve & Execute GitOps Rollback</span>`;
   }
 
   if (recoveryBox) recoveryBox.style.display = "none";
