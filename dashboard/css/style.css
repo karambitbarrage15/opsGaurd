@@ -1057,8 +1057,14 @@ body {
 .scenario-pills {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 18px;
+}
+
+.scenario-pills .label {
+  flex-shrink: 0;
+  margin-right: 4px;
 }
 
 .pill-btn {
@@ -1067,9 +1073,15 @@ body {
   color: var(--color-ink-2);
   font-family: var(--font-sans);
   font-size: 12.5px;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: var(--radius-xs);
   cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.3;
+  flex-shrink: 0;
   transition: all 0.15s ease;
 }
 

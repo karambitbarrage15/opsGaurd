@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChangeGuard — Comprehensive Platform Architecture & SRE Field Guide</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-size: 9pt;
+        color: #71717a;
+      }
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      font-size: 10pt;
+      line-height: 1.55;
+      color: #18181b;
+      background-color: #ffffff;
+    }
+
+    h1, h2, h3, h4 {
+      color: #09090b;
+      font-weight: 700;
+      page-break-after: avoid;
+    }
+
+    h1 {
+      font-size: 24pt;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 12pt;
+      color: #52525b;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    h2 {
+      font-size: 14pt;
+      border-bottom: 2px solid #e4e4e7;
+      padding-bottom: 4px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 11.5pt;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      color: #27272a;
+    }
+
+    p {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    strong {
+      color: #09090b;
+    }
+
+    /* Code Blocks */
+    pre {
+      background-color: #f4f4f5;
+      border: 1px solid #e4e4e7;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 8.5pt;
+      line-height: 1.45;
+      margin-bottom: 12px;
+      overflow-x: auto;
+      page-break-inside: avoid;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    code {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 9pt;
+      background: #f4f4f5;
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: #09090b;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      font-size: 9pt;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #e4e4e7;
+      padding: 7px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #f8fafc;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      border-left: 4px solid #2563eb;
+      background-color: #eff6ff;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      border-radius: 0 6px 6px 0;
+      page-break-inside: avoid;
+    }
+
+    .callout.warning {
+      border-left-color: #f59e0b;
+      background-color: #fffbeb;
+    }
+
+    .callout.danger {
+      border-left-color: #dc2626;
+      background-color: #fef2f2;
+    }
+
+    .callout.success {
+      border-left-color: #10b981;
+      background-color: #f0fdf4;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 9.5pt;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .callout.warning .callout-title { color: #b45309; }
+    .callout.danger .callout-title { color: #b91c1c; }
+    .callout.success .callout-title { color: #047857; }
+    .callout .callout-title { color: #1d4ed8; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-critical { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+    .badge-high { background: #ffedd5; color: #9a3412; border: 1px solid #fb923c; }
+    .badge-medium { background: #fef9c3; color: #854d0e; border: 1px solid #facc15; }
+    .badge-low { background: #dcfce7; color: #166534; border: 1px solid #4ade80; }
+
+    /* Header Banner */
+    .header-banner {
+      border-bottom: 2px solid #09090b;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .header-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5pt;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 6px;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header-banner">
+    <h1>ChangeGuard — Platform Architecture & SRE Field Guide</h1>
+    <div class="subtitle">AI-Powered Pre-Deployment Change-Risk Intelligence & Autonomous Incident Remediation</div>
+    <div class="header-meta">
+      <span>Systems Engineering & Reliability Platform</span>
+      <span>Model Context Protocol (MCP) · Vector RAG · GitOps</span>
+      <span>v2.4 Production Specification</span>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <h2>1. Executive Summary & Core Philosophy</h2>
+  <p>
+    In modern high-scale distributed systems, <strong>over 80% of critical production outages are triggered by human code deployments and configuration changes</strong>, rather than random hardware or network failures. When software degrades in real time, traditional approaches fall short: manual human code reviews fail to catch non-obvious latency regressions, and on-call engineers are paged at 3:00 AM to manually dig through disjointed logs, metrics, and Git commits to identify what broke.
+  </p>
+  <p>
+    <strong>ChangeGuard</strong> is a production-grade DevOps and AI reliability platform designed to solve both sides of this problem using a connected-vehicle telemetry pipeline as its mission-critical target system:
+  </p>
+  <ol>
+    <li>
+      <strong>Shift-Left Pre-Deployment Safety Gate (Change-Risk Engine):</strong> Analyzes incoming Pull Requests and Git diffs prior to merging. It calculates risk scores (0–100), detects anti-patterns (unbounded queries, thread-blocking sleeps, memory leaks, hardcoded credentials), maps downstream blast radius, and recommends canary rollout strategies.
+    </li>
+    <li>
+      <strong>Shift-Right Autonomous Incident Remediation (AI SRE Agent):</strong> When live telemetry degrades or Prometheus alerts fire, an autonomous AI SRE agent leverages the <strong>Model Context Protocol (MCP)</strong> and a <strong>Vectorized RAG Knowledge Base</strong> to inspect metrics, grep container logs, correlate recent Git blame, determine root cause, and execute a verified GitOps rollback.
+    </li>
+  </ol>
+
+  <!-- SECTION 2 -->
+  <h2>2. Mental Models & Layman Analogies</h2>
+  <p>To communicate the value and mechanics of ChangeGuard intuitively, four foundational analogies describe each subsystem:</p>
+
+  <div class="callout">
+    <div class="callout-title">🛫 Analogy 1: The Airport Baggage X-Ray Scanner (The Change-Risk Engine)</div>
+    <p>
+      Before passengers board an airplane, their luggage passes through an automated X-ray security scanner. The scanner does not care who owns the bag; it systematically flags dangerous items (explosives, weapons, liquids).
+      <br><strong>In ChangeGuard:</strong> Before code reaches production, the Risk Engine scans every line of the Git diff. It flags "dangerous contraband" in code—such as an unindexed <code>SELECT *</code> query, a thread-freezing <code>time.sleep()</code>, or an unmanaged memory cache—stopping faulty code at the gate before it can crash production servers.
+    </p>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-title">🩺 Analogy 2: The Emergency Room Specialist (The Autonomous AI SRE Agent)</div>
+    <p>
+      When a patient arrives in the ER, doctors do not guess blindly. They follow an established diagnostic protocol: check vitals (heart rate/blood pressure), order focused bloodwork, review medical history, identify the exact ailment, and administer the treatment.
+      <br><strong>In ChangeGuard:</strong> When vehicle telemetry degrades, the AI SRE Agent checks vitals (Prometheus metrics), inspects symptoms (container logs), inspects what changed recently (Git commits), and administers treatment (GitOps rollback to stable release).
+    </p>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-title">🔌 Analogy 3: Universal USB-C Port for AI (Model Context Protocol - MCP)</div>
+    <p>
+      Instead of every phone having a custom, fragile charging cable, USB-C provides a single standardized plug that transfers power and data safely across all devices.
+      <br><strong>In ChangeGuard:</strong> Instead of giving an AI model raw terminal bash access (which can accidentally execute destructive commands like <code>rm -rf</code>), <strong>MCP</strong> provides a clean, typed set of tools. The agent safely calls <code>query_prometheus()</code>, <code>git_log()</code>, or <code>trigger_rollback()</code> through standard JSON contracts.
+    </p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">📖 Analogy 4: The Black Box Flight Recorder & Incident Archive (Vector RAG)</div>
+    <p>
+      Commercial aviation is exceptionally safe because every time an aircraft encounters a mechanical issue, an official National Transportation Safety Board (NTSB) report is published and archived so pilots never make that mistake again.
+      <br><strong>In ChangeGuard:</strong> Top tech companies archive post-mortem reports. ChangeGuard’s <strong>Vectorized RAG Engine</strong> indexes past production incidents. When a new latency spike occurs, the AI searches past post-mortems and applies proven historical remediations rather than hallucinating.
+    </p>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="page-break"></div>
+  <h2>3. What is an SRE in the Real World?</h2>
+  <p>
+    The term <strong>Site Reliability Engineer (SRE)</strong> was coined at Google by Ben Treynor Sloss with the guiding definition: <em>"SRE is what happens when you ask a software engineer to design an operations team."</em>
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Primary Question Asked</th>
+        <th>Day-to-Day Responsibilities</th>
+        <th>Incident Response Approach</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Software Engineer (SWE)</strong></td>
+        <td><em>"How do I build this new feature?"</em></td>
+        <td>Writes application logic, implements UX, designs APIs, delivers product roadmap milestones.</td>
+        <td>Fixes application bugs during business hours after tickets are filed.</td>
+      </tr>
+      <tr>
+        <td><strong>Traditional SysAdmin</strong></td>
+        <td><em>"How do I keep this server running?"</em></td>
+        <td>Manages physical hardware, OS updates, manual server configuration, periodic reboots.</td>
+        <td>Manual triage, SSH into machines, manual restarts, edits live config files.</td>
+      </tr>
+      <tr>
+        <td><strong>Site Reliability Engineer (SRE)</strong></td>
+        <td><em>"How do I write software that automates system reliability?"</em></td>
+        <td>Treats operations as a software problem. Designs SLIs/SLOs, automates deployment gates, manages chaos tests, eliminates operational toil.</td>
+        <td>Automated alerting, telemetry correlation, git blame attribution, automated rollbacks, and blameless post-mortems.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Core SRE Terminology</h3>
+  <ul>
+    <li><strong>SLI (Service Level Indicator):</strong> A quantifiable metric measured in real time (e.g., <em>"p95 telemetry ingestion latency is currently 42ms"</em>).</li>
+    <li><strong>SLO (Service Level Objective):</strong> The target threshold agreed upon with the business (e.g., <em>"99.9% of telemetry requests must respond in under 100ms"</em>).</li>
+    <li><strong>SLA (Service Level Agreement):</strong> The contractual commitment to customers with financial penalties if violated.</li>
+    <li><strong>Error Budget:</strong> The allowable room for failure (100% - SLO). If the error budget is exhausted, deployments are automatically frozen.</li>
+    <li><strong>MTTR (Mean Time to Recovery):</strong> The average time required to detect, diagnose, and resolve an outage. ChangeGuard reduces MTTR from 45 minutes to under 60 seconds.</li>
+  </ul>
+
+  <!-- SECTION 4 -->
+  <h2>4. Pre-Deployment Gate: The Change-Risk Engine</h2>
+  <p>
+    The Change-Risk Engine (<code>:8001</code>) operates as an automated pre-deployment safety gate. When a developer submits a Pull Request, the engine analyzes the raw Git unified diff and executes three evaluation phases:
+  </p>
+
+  <h3>Phase 1: File Categorization & Criticality Weighting</h3>
+  <p>The parser categorizes files modified in the diff using regular expression pattern classifiers:</p>
+  <ul>
+    <li><strong>Database & Schema:</strong> <code>.sql</code>, <code>migrations/</code>, <code>schema.</code>, <code>models.py</code> &rarr; <strong>+35 Base Risk</strong> (affects persistent storage).</li>
+    <li><strong>Infrastructure & Deployment:</strong> <code>Dockerfile</code>, <code>docker-compose</code>, <code>.tf</code>, <code>.yaml</code>, <code>k8s/</code> &rarr; <strong>+25 Base Risk</strong> (affects container orchestration).</li>
+    <li><strong>Security & Authentication:</strong> <code>auth</code>, <code>jwt</code>, <code>permission</code>, <code>secret</code>, <code>token</code> &rarr; <strong>+25 Base Risk</strong> (touches access control).</li>
+    <li><strong>Core Ingestion Pipeline:</strong> <code>telemetry</code>, <code>ingest</code>, <code>stream</code>, <code>kafka</code>, <code>mqtt</code> &rarr; Evaluated for throughput bottlenecks.</li>
+    <li><strong>Third-Party Dependencies:</strong> <code>requirements.txt</code>, <code>package.json</code>, <code>go.mod</code> &rarr; <strong>+15 Base Risk</strong> (supply-chain updates).</li>
+    <li><strong>Documentation:</strong> <code>.md</code>, <code>.rst</code>, <code>docs/</code> &rarr; <strong>0 Base Risk</strong> (safe for immediate auto-approval).</li>
+  </ul>
+
+  <h3>Phase 2: Dangerous Code Pattern Detection</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Detected Pattern</th>
+        <th>Penalty</th>
+        <th>Production Failure Mode Prevented</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>DROP TABLE</code> | <code>ALTER TABLE</code></td>
+        <td><strong>+40 Points</strong></td>
+        <td>Destructive DDL migrations locking tables during peak ingestion hours, causing data loss.</td>
+      </tr>
+      <tr>
+        <td><code>SELECT * FROM</code> without <code>LIMIT</code></td>
+        <td><strong>+30 Points</strong></td>
+        <td>Unbounded queries triggering full table scans, exhausting database connection pools and memory.</td>
+      </tr>
+      <tr>
+        <td><code>time.sleep()</code> | <code>sleep()</code></td>
+        <td><strong>+25 Points</strong></td>
+        <td>Synchronous blocking calls inside asynchronous event loops, causing worker thread starvation.</td>
+      </tr>
+      <tr>
+        <td><code>password</code> | <code>secret</code> | <code>api_key = "..."</code></td>
+        <td><strong>+35 Points</strong></td>
+        <td>Hardcoded secrets committed into version control, risking credential exfiltration.</td>
+      </tr>
+      <tr>
+        <td><code>verify=False</code> | <code>REJECT_UNAUTHORIZED=0</code></td>
+        <td><strong>+35 Points</strong></td>
+        <td>Disabled TLS/SSL certificate verification, exposing vehicle data to Man-In-The-Middle attacks.</td>
+      </tr>
+      <tr>
+        <td><code>timeout=None</code> | missing timeout</td>
+        <td><strong>+25 Points</strong></td>
+        <td>External network calls with infinite timeout, causing cascading thread deadlocks.</td>
+      </tr>
+      <tr>
+        <td><code>while True:</code> | unbounded loop</td>
+        <td><strong>+20 Points</strong></td>
+        <td>CPU lockup and runaway loop execution starving sibling requests.</td>
+      </tr>
+      <tr>
+        <td><code>memory_buffer.append()</code> (unmanaged)</td>
+        <td><strong>+25 Points</strong></td>
+        <td>Unbounded in-memory accumulation triggering OS Out-Of-Memory (OOM) killer terminations.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 5 -->
+  <div class="page-break"></div>
+  <h2>5. Risk Scoring & Blast Radius Topology</h2>
+  
+  <h3>The 0–100 Risk Score & Governance Tiers</h3>
+  <p>The cumulative risk score dictates the governance gate enforced on the Pull Request:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Score Range</th>
+        <th>Risk Tier</th>
+        <th>Approval Status</th>
+        <th>Mandated Canary & Deployment Strategy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>0 – 24</strong></td>
+        <td><span class="badge badge-low">LOW</span></td>
+        <td><code>AUTO_APPROVED</code></td>
+        <td>Standard rolling deployment with automated endpoint health probes.</td>
+      </tr>
+      <tr>
+        <td><strong>25 – 49</strong></td>
+        <td><span class="badge badge-medium">MEDIUM</span></td>
+        <td><code>REQUIRES_PEER_REVIEW</code></td>
+        <td>Blue/Green deployment with instant automated traffic cutback gate.</td>
+      </tr>
+      <tr>
+        <td><strong>50 – 74</strong></td>
+        <td><span class="badge badge-high">HIGH</span></td>
+        <td><code>REQUIRES_HUMAN_SIGN_OFF</code></td>
+        <td>Standard Canary (5% &rarr; 50% &rarr; 100%) with 15-minute soak and SRE lead sign-off.</td>
+      </tr>
+      <tr>
+        <td><strong>75 – 100</strong></td>
+        <td><span class="badge badge-critical">CRITICAL</span></td>
+        <td><code>BLOCKED</code></td>
+        <td>Deployment blocked at CI gate. Multi-stage Canary (1% &rarr; 5% &rarr; 25%) with 1-hour bake time.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Blast Radius & Dependency Topology</h3>
+  <p>
+    When a microservice changes, the Risk Engine consults the internal service graph to compute the <strong>Blast Radius</strong>:
+  </p>
+  <ul>
+    <li><strong>Originating Service:</strong> <code>connected-vehicle-telemetry</code></li>
+    <li><strong>Direct Downstream Dependents:</strong> <code>fleet-management-api</code>, <code>battery-health-analyzer</code>, <code>geofencing-alert-engine</code>.</li>
+    <li><strong>Upstream Ingestion Dependencies:</strong> <code>mqtt-broker</code>, <code>kafka-telemetry-topic</code>.</li>
+    <li><strong>Impact Projection:</strong> If telemetry fails, 100% of the California, Nevada, and Texas vehicle fleets experience degraded tracking, and geofencing safety alarms are impaired.</li>
+  </ul>
+
+  <!-- SVG DIAGRAM: BLAST RADIUS TOPOLOGY GRAPH -->
+  <div class="diagram-wrapper" style="margin: 16px 0; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 14px; page-break-inside: avoid;">
+    <div style="font-size: 8.5pt; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
+      FIG 5.1 — BLAST RADIUS SERVICE DEPENDENCY TOPOLOGY &amp; FLEET IMPACT GRAPH
+    </div>
+    <svg viewBox="0 0 740 280" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', system-ui, sans-serif;">
+      <defs>
+        <marker id="arrow-grey" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#94a3b8" />
+        </marker>
+        <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#ef4444" />
+        </marker>
+        <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#f59e0b" />
+        </marker>
+      </defs>
+
+      <!-- Upstream Nodes (Top) -->
+      <g transform="translate(250, 10)">
+        <rect width="190" height="38" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-dasharray="3 3"/>
+        <text x="12" y="16" font-size="8" font-weight="700" fill="#475569">UPSTREAM TELEMETRY SOURCES</text>
+        <text x="12" y="30" font-size="8.5" fill="#334155">MQTT Broker &amp; Kafka Topics</text>
+      </g>
+      <path d="M 345 48 L 345 80" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow-grey)"/>
+
+      <!-- PR Origin Node (Far Left) -->
+      <g transform="translate(15, 95)">
+        <rect width="145" height="75" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="2"/>
+        <text x="10" y="20" font-size="8.5" font-weight="700" fill="#4f46e5">PR CHANGE ORIGIN</text>
+        <text x="10" y="38" font-size="10" font-weight="700" fill="#0f172a">Git PR #104</text>
+        <text x="10" y="52" font-size="8" fill="#64748b">telemetry.py</text>
+        <text x="10" y="66" font-size="7.5" fill="#ef4444" font-weight="600">+ Unbounded Sleep</text>
+      </g>
+      <path d="M 160 132 L 210 132" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+
+      <!-- Primary Service Under Test (Center) -->
+      <g transform="translate(215, 80)">
+        <rect width="210" height="105" rx="8" fill="#ffffff" stroke="#ef4444" stroke-width="2.5"/>
+        <rect width="210" height="24" rx="8" fill="#fee2e2"/>
+        <rect y="16" width="210" height="8" fill="#fee2e2"/>
+        <text x="12" y="16" font-size="8.5" font-weight="700" fill="#991b1b">TARGET SERVICE (:8000)</text>
+        <text x="12" y="44" font-size="11.5" font-weight="700" fill="#0f172a">connected-vehicle-telemetry</text>
+        <text x="12" y="60" font-size="8" fill="#64748b">Status: CRITICAL DEGRADATION</text>
+        <text x="12" y="76" font-size="8" fill="#ef4444" font-weight="600">Event Loop Blocked (2500ms)</text>
+        <text x="12" y="94" font-size="7.5" fill="#94a3b8">Ingestion queue backed up</text>
+      </g>
+
+      <!-- Downstream Connectors (Center -> Right) -->
+      <path d="M 425 105 L 475 48" fill="none" stroke="#f59e0b" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+      <path d="M 425 132 L 475 132" fill="none" stroke="#f59e0b" stroke-width="1.8" marker-end="url(#arrow-amber)"/>
+      <path d="M 425 160 L 475 218" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+      <!-- Downstream Microservices & Fleets (Right) -->
+      <!-- Branch 1: Fleet API -->
+      <g transform="translate(480, 20)">
+        <rect width="130" height="52" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="8" y="16" font-size="7.5" font-weight="700" fill="#b45309">DOWNSTREAM API</text>
+        <text x="8" y="32" font-size="9" font-weight="700" fill="#0f172a">fleet-management-api</text>
+        <text x="8" y="45" font-size="7.5" fill="#d97706">504 Gateway Timeouts</text>
+      </g>
+      <path d="M 610 46 L 635 46" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow-grey)"/>
+      <g transform="translate(640, 25)">
+        <rect width="90" height="42" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+        <text x="8" y="16" font-size="7" font-weight="700" fill="#475569">CALIFORNIA</text>
+        <text x="8" y="30" font-size="8" font-weight="600" fill="#ef4444">450 VINs (Down)</text>
+      </g>
+
+      <!-- Branch 2: Battery Health -->
+      <g transform="translate(480, 105)">
+        <rect width="130" height="52" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="8" y="16" font-size="7.5" font-weight="700" fill="#b45309">DOWNSTREAM ANALYTICS</text>
+        <text x="8" y="32" font-size="9" font-weight="700" fill="#0f172a">battery-health-analyzer</text>
+        <text x="8" y="45" font-size="7.5" fill="#d97706">Stale Telemetry Sync</text>
+      </g>
+      <path d="M 610 131 L 635 131" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow-grey)"/>
+      <g transform="translate(640, 110)">
+        <rect width="90" height="42" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+        <text x="8" y="16" font-size="7" font-weight="700" fill="#475569">NEVADA FLEET</text>
+        <text x="8" y="30" font-size="8" font-weight="600" fill="#f59e0b">300 VINs (Lag)</text>
+      </g>
+
+      <!-- Branch 3: Geofencing Alerts -->
+      <g transform="translate(480, 190)">
+        <rect width="130" height="52" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.8"/>
+        <text x="8" y="16" font-size="7.5" font-weight="700" fill="#991b1b">SAFETY CRITICAL</text>
+        <text x="8" y="32" font-size="9" font-weight="700" fill="#0f172a">geofencing-alert-engine</text>
+        <text x="8" y="45" font-size="7.5" fill="#ef4444">Emergency Pushes Dropped</text>
+      </g>
+      <path d="M 610 216 L 635 216" fill="none" stroke="#ef4444" stroke-width="1.8" marker-end="url(#arrow-red)"/>
+      <g transform="translate(640, 195)">
+        <rect width="90" height="42" rx="4" fill="#fef2f2" stroke="#ef4444"/>
+        <text x="8" y="16" font-size="7" font-weight="700" fill="#991b1b">TEXAS FLEET</text>
+        <text x="8" y="30" font-size="8" font-weight="700" fill="#ef4444">250 VINs (Impaired)</text>
+      </g>
+
+      <!-- Legend Footer -->
+      <g transform="translate(180, 255)">
+        <circle cx="8" cy="8" r="4" fill="#ef4444"/>
+        <text x="18" y="11" font-size="8" fill="#475569">Critical Impact</text>
+        <circle cx="110" cy="8" r="4" fill="#f59e0b"/>
+        <text x="120" y="11" font-size="8" fill="#475569">High Degradation</text>
+        <circle cx="230" cy="8" r="4" fill="#94a3b8"/>
+        <text x="240" y="11" font-size="8" fill="#475569">Upstream Healthy</text>
+        <text x="350" y="11" font-size="8" font-weight="700" fill="#0f172a">Total Estimated Fleet Blast Radius: 1,000 Vehicles (100%)</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- SECTION 6 -->
+  <h2>6. The 7 Production Scenarios (Code & Analysis)</h2>
+  <p>ChangeGuard includes 7 distinct production scenarios covering standard engineering risks:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Scenario Name</th>
+        <th>Risk Tier</th>
+        <th>Core Anti-Pattern / Code Flaw</th>
+        <th>Blast Radius & Impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Unbounded Query & Sleep</strong></td>
+        <td><span class="badge badge-high">HIGH (65/100)</span></td>
+        <td><code>SELECT *</code> without index/limit + <code>time.sleep(2.5)</code> in ingestion path.</td>
+        <td>Worker backlog, request timeouts across vehicle fleets.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Memory Buffer Leak</strong></td>
+        <td><span class="badge badge-critical">CRITICAL (75/100)</span></td>
+        <td><code>global_coordinate_cache.append(bytearray(50MB))</code> without eviction.</td>
+        <td>Rapid RAM consumption leading to Linux OOM killer panic.</td>
+      </tr>
+      <tr>
+        <td><strong>3. API Key & No SSL</strong></td>
+        <td><span class="badge badge-critical">CRITICAL (95/100)</span></td>
+        <td>Hardcoded <code>sk_live_...</code> API key and <code>verify=False</code> on external sync.</td>
+        <td>Credential leak risk and Man-in-the-Middle vulnerability.</td>
+      </tr>
+      <tr>
+        <td><strong>4. Destructive Table Drop</strong></td>
+        <td><span class="badge badge-critical">CRITICAL (85/100)</span></td>
+        <td><code>DROP TABLE vehicle_historical_events;</code></td>
+        <td>Irreversible data loss; database lock cascading across all microservices.</td>
+      </tr>
+      <tr>
+        <td><strong>5. Missing Timeout</strong></td>
+        <td><span class="badge badge-high">HIGH (55/100)</span></td>
+        <td><code>httpx.Client(timeout=None)</code> in a <code>while True</code> loop.</td>
+        <td>Network socket exhaustion and cascading thread starvation.</td>
+      </tr>
+      <tr>
+        <td><strong>6. Optimized Feature</strong></td>
+        <td><span class="badge badge-low">LOW (10/100)</span></td>
+        <td>Strict <code>LIMIT 10</code>, indexed query, parameterized SQL statement.</td>
+        <td>Safe, high-efficiency execution. Auto-approved.</td>
+      </tr>
+      <tr>
+        <td><strong>7. Safe Documentation</strong></td>
+        <td><span class="badge badge-low">LOW (10/100)</span></td>
+        <td>Edits to <code>README.md</code> specifications only.</td>
+        <td>Zero runtime risk. Auto-approved.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 7 -->
+  <div class="page-break"></div>
+  <h2>7. Shift-Right Remediation: The Autonomous AI SRE Agent</h2>
+  <p>
+    When degradation bypasses pre-deployment gates or chaos faults are injected, the Autonomous AI SRE Agent (<code>:8003</code>) initiates a structured 8-step investigative diagnosis. Below is the visual state graph tracing the autonomous workflow from alert detection to GitOps rollback:
+  </p>
+
+  <!-- SVG DIAGRAM: AUTONOMOUS SRE AGENT WORKFLOW GRAPH -->
+  <div class="diagram-wrapper" style="margin: 16px 0; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 14px; page-break-inside: avoid;">
+    <div style="font-size: 8.5pt; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
+      FIG 7.1 — AUTONOMOUS AI SRE INVESTIGATION &amp; REMEDIATION STATE GRAPH
+    </div>
+    <svg viewBox="0 0 740 370" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', system-ui, sans-serif;">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#71717a" />
+        </marker>
+        <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#10b981" />
+        </marker>
+        <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+          <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.06"/>
+        </filter>
+      </defs>
+
+      <!-- ROW 1 (Left to Right: Steps 1, 2, 3, 4) -->
+      <!-- Node 1: Alert Trigger -->
+      <g transform="translate(10, 15)" filter="url(#shadow)">
+        <rect width="155" height="110" rx="8" fill="#ffffff" stroke="#ef4444" stroke-width="2"/>
+        <rect width="155" height="26" rx="8" fill="#fee2e2" />
+        <rect y="18" width="155" height="8" fill="#fee2e2" />
+        <text x="12" y="18" font-size="9" font-weight="700" fill="#991b1b">01 / DETECT ANOMALY</text>
+        <text x="12" y="44" font-size="11" font-weight="700" fill="#0f172a">Prometheus Alert</text>
+        <text x="12" y="60" font-size="8.5" fill="#64748b">LatencyThresholdActive</text>
+        <text x="12" y="76" font-size="8" fill="#ef4444" font-weight="600">p95 &gt; 2500ms Spike</text>
+        <text x="12" y="96" font-size="7.5" fill="#94a3b8">Source: Telemetry :8000</text>
+      </g>
+
+      <!-- Arrow 1 -> 2 -->
+      <path d="M 165 70 L 190 70" fill="none" stroke="#71717a" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 2: PromQL Metrics -->
+      <g transform="translate(195, 15)" filter="url(#shadow)">
+        <rect width="155" height="110" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="1.8"/>
+        <rect width="155" height="26" rx="8" fill="#e0e7ff" />
+        <rect y="18" width="155" height="8" fill="#e0e7ff" />
+        <text x="12" y="18" font-size="9" font-weight="700" fill="#3730a3">02 / MCP OBSERVABILITY</text>
+        <text x="12" y="44" font-size="11" font-weight="700" fill="#0f172a">Query Prometheus</text>
+        <text x="12" y="60" font-size="8.5" fill="#4338ca" font-family="monospace">query_prometheus()</text>
+        <text x="12" y="76" font-size="8" fill="#64748b">Rate: 5xx ratio = 48%</text>
+        <text x="12" y="96" font-size="7.5" fill="#94a3b8">Quantifies Degradation</text>
+      </g>
+
+      <!-- Arrow 2 -> 3 -->
+      <path d="M 350 70 L 375 70" fill="none" stroke="#71717a" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 3: Scan Container Logs -->
+      <g transform="translate(380, 15)" filter="url(#shadow)">
+        <rect width="155" height="110" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="1.8"/>
+        <rect width="155" height="26" rx="8" fill="#fef3c7" />
+        <rect y="18" width="155" height="8" fill="#fef3c7" />
+        <text x="12" y="18" font-size="9" font-weight="700" fill="#92400e">03 / LOG INSPECTION</text>
+        <text x="12" y="44" font-size="11" font-weight="700" fill="#0f172a">Search Error Logs</text>
+        <text x="12" y="60" font-size="8.5" fill="#b45309" font-family="monospace">search_logs(ERROR)</text>
+        <text x="12" y="76" font-size="8" fill="#64748b">14 Timeout Stacktraces</text>
+        <text x="12" y="96" font-size="7.5" fill="#94a3b8">Worker Backlog Trace</text>
+      </g>
+
+      <!-- Arrow 3 -> 4 -->
+      <path d="M 535 70 L 560 70" fill="none" stroke="#71717a" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 4: Trace Git Blame -->
+      <g transform="translate(565, 15)" filter="url(#shadow)">
+        <rect width="165" height="110" rx="8" fill="#ffffff" stroke="#0ea5e9" stroke-width="1.8"/>
+        <rect width="165" height="26" rx="8" fill="#e0f2fe" />
+        <rect y="18" width="165" height="8" fill="#e0f2fe" />
+        <text x="12" y="18" font-size="9" font-weight="700" fill="#0369a1">04 / GIT BLAME</text>
+        <text x="12" y="44" font-size="11" font-weight="700" fill="#0f172a">Trace Culprit Commit</text>
+        <text x="12" y="60" font-size="8.5" fill="#0284c7" font-family="monospace">git_log(limit=3)</text>
+        <text x="12" y="76" font-size="8" fill="#64748b">Commit: a8f12c</text>
+        <text x="12" y="96" font-size="7.5" fill="#94a3b8">Deployed 4 mins ago</text>
+      </g>
+
+      <!-- Serpentine Arrow Row 1 (Node 4) -> Row 2 (Node 5) -->
+      <path d="M 647 125 C 647 165, 647 165, 647 195" fill="none" stroke="#71717a" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- ROW 2 (Right to Left: Steps 5, 6, 7, 8) -->
+      <!-- Node 5: Inspect Culprit Diff -->
+      <g transform="translate(565, 205)" filter="url(#shadow)">
+        <rect width="165" height="110" rx="8" fill="#ffffff" stroke="#06b6d4" stroke-width="1.8"/>
+        <rect width="165" height="26" rx="8" fill="#cffafe" />
+        <rect y="18" width="165" height="8" fill="#cffafe" />
+        <text x="12" y="18" font-size="9" font-weight="700" fill="#0e7490">05 / DIFF INSPECTION</text>
+        <text x="12" y="44" font-size="11" font-weight="700" fill="#0f172a">AST Code Diff</text>
+        <text x="12" y="60" font-size="8.5" fill="#0891b2" font-family="monospace">git_diff_commit(HEAD)</text>
+        <text x="12" y="76" font-size="8" fill="#ef4444" font-weight="600">+ time.sleep(2.5)</text>
+        <text x="12" y="96" font-size="7.5" fill="#94a3b8">Offending Line Isolated</text>
+      </g>
+
+      <!-- Arrow 5 -> 6 -->
+      <path d="M 565 260 L 540 260" fill="none" stroke="#71717a" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 6: Vector RAG Match -->
+      <g transform="translate(380, 205)" filter="url(#shadow)">
+        <rect width="155" height="110" rx="8" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.8"/>
+        <rect width="155" height="26" rx="8" fill="#ede9fe" />
+        <rect y="18" width="155" height="8" fill="#ede9fe" />
+        <text x="12" y="18" font-size="9" font-weight="700" fill="#5b21b6">06 / VECTOR RAG</text>
+        <text x="12" y="44" font-size="11" font-weight="700" fill="#0f172a">Match Playbooks</text>
+        <text x="12" y="60" font-size="8.5" fill="#6d28d9" font-family="monospace">query_rag(symptoms)</text>
+        <text x="12" y="76" font-size="8" fill="#10b981" font-weight="600">Post-Mortem 001 (94%)</text>
+        <text x="12" y="96" font-size="7.5" fill="#94a3b8">Historical Fix Found</text>
+      </g>
+
+      <!-- Arrow 6 -> 7 -->
+      <path d="M 380 260 L 355 260" fill="none" stroke="#71717a" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 7: Synthesize RCA -->
+      <g transform="translate(195, 205)" filter="url(#shadow)">
+        <rect width="155" height="110" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="1.8"/>
+        <rect width="155" height="26" rx="8" fill="#fef3c7" />
+        <rect y="18" width="155" height="8" fill="#fef3c7" />
+        <text x="12" y="18" font-size="9" font-weight="700" fill="#b45309">07 / RCA DEDUCTION</text>
+        <text x="12" y="44" font-size="11" font-weight="700" fill="#0f172a">Synthesize Report</text>
+        <text x="12" y="60" font-size="8.5" fill="#78350f">Root Cause Confirmed</text>
+        <text x="12" y="76" font-size="8" fill="#b45309">Blocking sleep in async loop</text>
+        <text x="12" y="96" font-size="7.5" fill="#94a3b8">Blast Radius: 450 VINs</text>
+      </g>
+
+      <!-- Arrow 7 -> 8 -->
+      <path d="M 195 260 L 170 260" fill="none" stroke="#71717a" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 8: GitOps Rollback & Recovery -->
+      <g transform="translate(10, 205)" filter="url(#shadow)">
+        <rect width="155" height="110" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+        <rect width="155" height="26" rx="8" fill="#d1fae5" />
+        <rect y="18" width="155" height="8" fill="#d1fae5" />
+        <text x="12" y="18" font-size="9" font-weight="700" fill="#065f46">08 / GITOPS REMEDIATION</text>
+        <text x="12" y="44" font-size="11" font-weight="700" fill="#0f172a">Rollback &amp; Verify</text>
+        <text x="12" y="60" font-size="8.5" fill="#059669" font-family="monospace">trigger_rollback()</text>
+        <text x="12" y="76" font-size="8" fill="#10b981" font-weight="700">&gt; verify_health() OK</text>
+        <text x="12" y="96" font-size="7.5" fill="#047857">Restored to v2.4.0 (38ms)</text>
+      </g>
+
+      <!-- Recovery loop / Status pill -->
+      <g transform="translate(250, 335)">
+        <rect width="240" height="24" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2"/>
+        <circle cx="15" cy="12" r="4" fill="#10b981"/>
+        <text x="26" y="16" font-size="8.5" font-weight="700" fill="#065f46">MEAN TIME TO RECOVERY (MTTR): &lt; 48s</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- SECTION 8 -->
+  <h2>8. Model Context Protocol (MCP) Tool Registry</h2>
+  <p>
+    ChangeGuard's MCP Server (<code>:8002</code>) exposes 10 standardized, strictly typed operational tools:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>MCP Tool Name</th>
+        <th>Input Arguments</th>
+        <th>Operational Output & Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>get_active_alerts</code></td>
+        <td>None</td>
+        <td>Returns all currently firing Prometheus alerts and alert metadata.</td>
+      </tr>
+      <tr>
+        <td><code>query_prometheus</code></td>
+        <td><code>query</code> (PromQL string)</td>
+        <td>Executes PromQL time-series metric queries against Prometheus.</td>
+      </tr>
+      <tr>
+        <td><code>search_logs</code></td>
+        <td><code>level</code>, <code>keyword</code></td>
+        <td>Searches recent application container logs for stack traces and errors.</td>
+      </tr>
+      <tr>
+        <td><code>git_log</code></td>
+        <td><code>limit</code> (int)</td>
+        <td>Retrieves recent commits, authors, hashes, and commit messages.</td>
+      </tr>
+      <tr>
+        <td><code>git_diff_commit</code></td>
+        <td><code>commit_hash</code> (string)</td>
+        <td>Extracts the exact unified diff introduced by a specific commit.</td>
+      </tr>
+      <tr>
+        <td><code>git_blame</code></td>
+        <td><code>file_path</code>, <code>line_no</code></td>
+        <td>Identifies the developer and commit responsible for specific lines.</td>
+      </tr>
+      <tr>
+        <td><code>list_containers</code></td>
+        <td>None</td>
+        <td>Lists all running Docker containers, status, and port bindings.</td>
+      </tr>
+      <tr>
+        <td><code>inspect_container</code></td>
+        <td><code>container_name</code></td>
+        <td>Inspects container CPU, memory usage, environment variables, and uptime.</td>
+      </tr>
+      <tr>
+        <td><code>trigger_rollback</code></td>
+        <td><code>service_name</code>, <code>target_version</code></td>
+        <td>Executes an automated GitOps rollback to a verified stable revision.</td>
+      </tr>
+      <tr>
+        <td><code>verify_health</code></td>
+        <td><code>service_name</code></td>
+        <td>Probes health endpoints post-rollback to verify full recovery.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 9 -->
+  <div class="page-break"></div>
+  <h2>9. Vectorized RAG Incident Playbooks</h2>
+  <p>
+    ChangeGuard’s RAG Knowledge Engine (<code>:8004</code>) converts historical incident reports into TF-IDF vector embeddings with cosine similarity matching. The repository indexes 8 production post-mortems:
+  </p>
+  <ol>
+    <li><strong>Post-Mortem 001:</strong> P1 Ingestion Latency Degradation in California Fleet (blocking sleep in event loop).</li>
+    <li><strong>Post-Mortem 002:</strong> Global Memory Buffer Leak (unbounded bytearray coordinate cache).</li>
+    <li><strong>Post-Mortem 003:</strong> PostgreSQL Connection Pool Starvation (unclosed connection handles).</li>
+    <li><strong>Post-Mortem 004:</strong> Environment Configuration Drift (missing port mapping in deployment manifest).</li>
+    <li><strong>Post-Mortem 005:</strong> Cascading Network Timeout (missing circuit breaker on geocoding client).</li>
+    <li><strong>Post-Mortem 006:</strong> Kafka Telemetry Topic Backpressure (consumer group lag spike).</li>
+    <li><strong>Post-Mortem 007:</strong> Canary Ingestion Error Cascade (unhandled null VIN telemetry packet).</li>
+    <li><strong>Post-Mortem 008:</strong> Unindexed Range Query Performance Degradation (full table scan on timestamps).</li>
+  </ol>
+
+  <!-- SECTION 10 -->
+  <h2>10. GitHub CI/CD & Webhook Integration</h2>
+  <p>
+    In production environments, no human copies and pastes diffs manually. ChangeGuard integrates directly into GitHub via <strong>GitHub Actions</strong> and <strong>Webhooks</strong>. The flow graph below illustrates the automated PR lifecycle from developer commit to deployment gating:
+  </p>
+
+  <!-- SVG DIAGRAM: GITHUB CI/CD GATING GRAPH -->
+  <div class="diagram-wrapper" style="margin: 16px 0; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 14px; page-break-inside: avoid;">
+    <div style="font-size: 8.5pt; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">
+      FIG 10.1 — GITHUB CI/CD REAL-TIME PULL REQUEST RISK GATING WORKFLOW
+    </div>
+    <svg viewBox="0 0 740 160" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', system-ui, sans-serif;">
+      <defs>
+        <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 8 5 L 0 9 z" fill="#3b82f6" />
+        </marker>
+      </defs>
+
+      <!-- Step 1: Dev Push -->
+      <g transform="translate(10, 35)">
+        <rect width="115" height="80" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+        <text x="10" y="20" font-size="8" font-weight="700" fill="#64748b">STEP 01</text>
+        <text x="10" y="38" font-size="9.5" font-weight="700" fill="#0f172a">git push origin</text>
+        <text x="10" y="52" font-size="8" fill="#475569">Developer opens</text>
+        <text x="10" y="66" font-size="8" fill="#475569">GitHub PR</text>
+      </g>
+      <path d="M 125 75 L 155 75" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+      <!-- Step 2: GitHub Action -->
+      <g transform="translate(160, 35)">
+        <rect width="125" height="80" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <text x="10" y="20" font-size="8" font-weight="700" fill="#1d4ed8">STEP 02 / ACTION</text>
+        <text x="10" y="38" font-size="9.5" font-weight="700" fill="#0f172a">Extract Diff</text>
+        <text x="10" y="52" font-size="7.5" fill="#475569" font-family="monospace">git diff main...HEAD</text>
+        <text x="10" y="66" font-size="8" fill="#1e40af">GitHub Workflow</text>
+      </g>
+      <path d="M 285 75 L 315 75" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+      <!-- Step 3: ChangeGuard Risk Engine -->
+      <g transform="translate(320, 25)">
+        <rect width="145" height="100" rx="8" fill="#ffffff" stroke="#6366f1" stroke-width="2"/>
+        <rect width="145" height="22" rx="8" fill="#e0e7ff"/>
+        <rect y="14" width="145" height="8" fill="#e0e7ff"/>
+        <text x="8" y="15" font-size="7.5" font-weight="700" fill="#3730a3">CHANGEGUARD API (:8001)</text>
+        <text x="8" y="42" font-size="10" font-weight="700" fill="#0f172a">POST /github/webhook</text>
+        <text x="8" y="58" font-size="8" fill="#475569">1. AST Pattern Parser</text>
+        <text x="8" y="72" font-size="8" fill="#475569">2. Blast Radius Topology</text>
+        <text x="8" y="86" font-size="8" fill="#475569">3. Risk Score (0-100)</text>
+      </g>
+
+      <!-- Branching Arrows -->
+      <path d="M 465 60 C 495 60, 495 38, 520 38" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-green)"/>
+      <path d="M 465 90 C 495 90, 495 112, 520 112" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+      <!-- Output Branch 1: Auto Approved -->
+      <g transform="translate(525, 10)">
+        <rect width="200" height="55" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+        <text x="10" y="18" font-size="8" font-weight="700" fill="#15803d">SCORE &lt; 25: AUTO-APPROVED</text>
+        <text x="10" y="34" font-size="9" font-weight="700" fill="#0f172a">CI Check: PASSED (Green)</text>
+        <text x="10" y="48" font-size="8" fill="#475569">PR unlocked. Rolling deploy allowed.</text>
+      </g>
+
+      <!-- Output Branch 2: Blocked -->
+      <g transform="translate(525, 85)">
+        <rect width="200" height="60" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.8"/>
+        <text x="10" y="18" font-size="8" font-weight="700" fill="#b91c1c">SCORE &gt;= 75: CRITICAL RISK</text>
+        <text x="10" y="34" font-size="9" font-weight="700" fill="#0f172a">CI Check: FAILED (Exit 1)</text>
+        <text x="10" y="48" font-size="8" fill="#ef4444">PR Merge Button Locked</text>
+        <text x="10" y="56" font-size="7" fill="#64748b">Bot posts automated breakdown comment</text>
+      </g>
+    </svg>
+  </div>
+
+  <pre>
+# .github/workflows/changeguard-risk-gate.yml
+name: ChangeGuard AI Pre-Deploy Risk Gate
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  risk-assessment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Extract PR Unified Diff
+        run: git diff origin/${{ github.base_ref }}...HEAD > pr.diff
+      - name: Call ChangeGuard Risk Gate
+        run: |
+          RESPONSE=$(curl -s -X POST "https://changeguard.internal:8001/github/webhook" \
+            -H "Content-Type: application/json" \
+            -d "{\"pull_request\": {\"title\": \"${{ github.event.pull_request.title }}\", \"number\": ${{ github.event.pull_request.number }}}, \"diff\": $(jq -s -R . < pr.diff)}")
+          STATUS=$(echo "$RESPONSE" | jq -r '.risk_assessment.approval_status')
+          if [ "$STATUS" = "BLOCKED" ]; then
+            echo "PR Blocked by ChangeGuard! Critical risk detected." && exit 1
+          fi
+  </pre>
+
+  <!-- SECTION 11 -->
+  <h2>11. Deployment Architecture Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Service Name</th>
+        <th>Container Port</th>
+        <th>Technology</th>
+        <th>Core Responsibilities</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>dashboard</strong></td>
+        <td><code>:3000</code></td>
+        <td>Nginx / HTML5 / CSS3</td>
+        <td>Real-time operations center, live fleet stream, chaos studio, risk analyzer.</td>
+      </tr>
+      <tr>
+        <td><strong>telemetry-service</strong></td>
+        <td><code>:8000</code></td>
+        <td>FastAPI / Python 3.12</td>
+        <td>High-frequency vehicle ingestion, GPS/speed streaming, chaos injection API.</td>
+      </tr>
+      <tr>
+        <td><strong>risk-engine</strong></td>
+        <td><code>:8001</code></td>
+        <td>FastAPI / AST Parser</td>
+        <td>Diff parsing, blast radius evaluation, risk scoring, GitHub webhook.</td>
+      </tr>
+      <tr>
+        <td><strong>mcp-server</strong></td>
+        <td><code>:8002</code></td>
+        <td>FastAPI / MCP Protocol</td>
+        <td>10 typed diagnostic tools exposing Prometheus, Git, Docker, and Logs.</td>
+      </tr>
+      <tr>
+        <td><strong>sre-agent</strong></td>
+        <td><code>:8003</code></td>
+        <td>FastAPI / Autonomous Agent</td>
+        <td>8-step investigative diagnosis loop, RCA synthesis, rollback orchestration.</td>
+      </tr>
+      <tr>
+        <td><strong>rag-engine</strong></td>
+        <td><code>:8004</code></td>
+        <td>FastAPI / Scikit-Learn</td>
+        <td>Vectorized incident post-mortem indexing and cosine similarity retrieval.</td>
+      </tr>
+      <tr>
+        <td><strong>prometheus</strong></td>
+        <td><code>:9090</code></td>
+        <td>Prometheus v2.54.1</td>
+        <td>Time-series metric scraping, alert threshold evaluation.</td>
+      </tr>
+      <tr>
+        <td><strong>grafana</strong></td>
+        <td><code>:3001</code></td>
+        <td>Grafana v11.1.0</td>
+        <td>Pre-provisioned vehicle telemetry and cluster health dashboards.</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

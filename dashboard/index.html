@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=2.1">
 </head>
 <body class="bg-paper text-ink">
 
@@ -452,10 +452,14 @@
             </div>
 
             <div class="scenario-pills">
-              <span class="label">Scenarios:</span>
-              <button class="pill-btn active" id="btnSampleQuery">Unbounded Query &amp; Sleep</button>
-              <button class="pill-btn" id="btnSampleMemory">Memory Buffer Leak</button>
-              <button class="pill-btn" id="btnSampleDocs">Safe Documentation</button>
+              <span class="label">Scenarios (7):</span>
+              <button type="button" class="pill-btn active" id="btnSampleQuery" onclick="loadSample('unbounded_query', true); setActivePill('btnSampleQuery');">Unbounded Query &amp; Sleep</button>
+              <button type="button" class="pill-btn" id="btnSampleMemory" onclick="loadSample('memory_leak_buffer', true); setActivePill('btnSampleMemory');">Memory Buffer Leak</button>
+              <button type="button" class="pill-btn" id="btnSampleSecrets" onclick="loadSample('hardcoded_secrets', true); setActivePill('btnSampleSecrets');">API Key &amp; No SSL</button>
+              <button type="button" class="pill-btn" id="btnSampleMigration" onclick="loadSample('destructive_migration', true); setActivePill('btnSampleMigration');">Destructive Table Drop</button>
+              <button type="button" class="pill-btn" id="btnSampleTimeout" onclick="loadSample('missing_timeout', true); setActivePill('btnSampleTimeout');">Missing Timeout</button>
+              <button type="button" class="pill-btn" id="btnSamplePagination" onclick="loadSample('safe_feature_pagination', true); setActivePill('btnSamplePagination');">Optimized Feature</button>
+              <button type="button" class="pill-btn" id="btnSampleDocs" onclick="loadSample('safe_docs', true); setActivePill('btnSampleDocs');">Safe Documentation</button>
             </div>
 
             <div class="form-group">
@@ -703,10 +707,10 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="js/app.js"></script>
-  <script src="js/metrics.js"></script>
-  <script src="js/risk_panel.js"></script>
-  <script src="js/agent_stream.js"></script>
+  <!-- Scripts with cache buster -->
+  <script src="js/app.js?v=2.1"></script>
+  <script src="js/metrics.js?v=2.1"></script>
+  <script src="js/risk_panel.js?v=2.1"></script>
+  <script src="js/agent_stream.js?v=2.1"></script>
 </body>
 </html>

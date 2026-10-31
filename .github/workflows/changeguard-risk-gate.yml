@@ -1,0 +1,74 @@
+name: ChangeGuard AI Pre-Deploy Risk Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  risk-assessment:
+    name: Evaluate PR Blast Radius & Change Risk
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract Pull Request Unified Diff
+        id: extract_diff
+        run: |
+          # Compare target branch with current PR commit head
+          git diff origin/${{ github.base_ref }}...HEAD > pr_changes.diff
+          echo "diff_size=$(wc -l < pr_changes.diff)" >> $GITHUB_OUTPUT
+
+      - name: Send Diff to ChangeGuard Risk Engine
+        id: risk_engine
+        env:
+          CHANGEGUARD_ENDPOINT: ${{ secrets.CHANGEGUARD_URL || 'http://changeguard.internal:8001' }}
+        run: |
+          DIFF_CONTENT=$(cat pr_changes.diff | jq -s -R .)
+          COMMIT_TITLE="${{ github.event.pull_request.title }}"
+          AUTHOR="${{ github.actor }}"
+          BRANCH="${{ github.head_ref }}"
+
+          # Call ChangeGuard /github/webhook or /risk/analyze API
+          RESPONSE=$(curl -s -X POST "$CHANGEGUARD_ENDPOINT/github/webhook" \
+            -H "Content-Type: application/json" \
+            -d "{\"pull_request\": {\"title\": \"$COMMIT_TITLE\", \"number\": ${{ github.event.pull_request.number }}}, \"diff\": $DIFF_CONTENT, \"author\": \"$AUTHOR\", \"branch\": \"$BRANCH\"}")
+
+          echo "$RESPONSE" > changeguard_result.json
+          RISK_SCORE=$(echo "$RESPONSE" | jq -r '.risk_assessment.risk_score')
+          APPROVAL_STATUS=$(echo "$RESPONSE" | jq -r '.risk_assessment.approval_status')
+          echo "risk_score=$RISK_SCORE" >> $GITHUB_OUTPUT
+          echo "approval_status=$APPROVAL_STATUS" >> $GITHUB_OUTPUT
+
+      - name: Post ChangeGuard Safety Verdict to PR Comments
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const result = JSON.parse(fs.readFileSync('changeguard_result.json', 'utf8'));
+            const commentBody = result.github_comment_markdown;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody
+            });
+
+      - name: Gate Enforcement (Fail if Critical or Blocked)
+        run: |
+          STATUS="${{ steps.risk_engine.outputs.approval_status }}"
+          SCORE="${{ steps.risk_engine.outputs.risk_score }}"
+          echo "ChangeGuard Verdict: $STATUS (Score: $SCORE)"
+
+          if [ "$STATUS" = "BLOCKED" ]; then
+            echo "::error::PR blocked by ChangeGuard! High blast radius or dangerous patterns detected."
+            exit 1
+          fi
+
