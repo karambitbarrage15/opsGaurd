@@ -1,13 +1,12 @@
-/**
- * ChangeGuard Dashboard Main App Controller (Polar Theme)
- */
+// ChangeGuard Dashboard Main App Controller (Polar Theme)
+const API_HOST = window.location.hostname || "localhost";
 
 window.CONFIG = {
-  TELEMETRY_URL: "http://localhost:8000",
-  RISK_ENGINE_URL: "http://localhost:8001",
-  MCP_SERVER_URL: "http://localhost:8002",
-  SRE_AGENT_URL: "http://localhost:8003",
-  RAG_ENGINE_URL: "http://localhost:8004"
+  TELEMETRY_URL: `http://${API_HOST}:8000`,
+  RISK_ENGINE_URL: `http://${API_HOST}:8001`,
+  MCP_SERVER_URL: `http://${API_HOST}:8002`,
+  SRE_AGENT_URL: `http://${API_HOST}:8003`,
+  RAG_ENGINE_URL: `http://${API_HOST}:8004`
 };
 
 document.addEventListener("DOMContentLoaded", () => {
